@@ -7,7 +7,7 @@ using DomainModel;
 namespace AspNetTestApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class DesktopApiController : ControllerBase
     {
         private List<string> texts = new List<string>();
@@ -58,9 +58,9 @@ namespace AspNetTestApi.Controllers
             string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files");
             IFormFileCollection formFiles = Request.Form.Files;
             if (formFiles.Count == 0)
-                return Content("No files Нет файлов");
+                return BadRequest(new {type = "error", msg = "No files нет файлов"});
             if (formFiles.Count > 1)
-                return Content("More than 1 file Допускается только 1 файл");
+                return BadRequest(new { type = "error", msg = "More than 1 file Допускается только 1 файл" });
 
             IFormFile file = formFiles[0];
             string filePath = Path.Combine(folder, filename);
