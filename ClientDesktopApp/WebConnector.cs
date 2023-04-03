@@ -13,7 +13,7 @@ namespace ClientDesktopApp
 
         public WebConnector(string serverUrl)
         {
-            client.BaseAddress = new Uri(serverUrl);
+            //client.BaseAddress = new Uri(serverUrl);
         }
     }
 }

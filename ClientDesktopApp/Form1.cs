@@ -21,6 +21,17 @@ namespace ClientDesktopApp
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
+            string serverUrl = textBoxServerUrl.Text;
+            Log.Text += $"\nTry connect to {serverUrl}...";
+            if (Internet.Ok(serverUrl))
+            {
+                Log.Text += "\nInternet OK";
+            }
+            else
+            {
+                Log.Text += "\nInternet FAIL";
+                return;
+            }
 
             connector = new WebConnector(textBoxServerUrl.Text);
         }
