@@ -21,6 +21,7 @@ namespace ClientDesktopApp
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
+
             connector = new WebConnector(textBoxServerUrl.Text);
         }
     }

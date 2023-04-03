@@ -54,7 +54,12 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
+            this.Log = new System.Windows.Forms.RichTextBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.buttonUploadFile = new System.Windows.Forms.Button();
+            this.buttonRefreshFiles = new System.Windows.Forms.Button();
+            this.comboBoxFiles = new System.Windows.Forms.ComboBox();
+            this.buttonDownloadFIle = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericObjectId)).BeginInit();
@@ -62,6 +67,7 @@
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxServerUrl
@@ -157,7 +163,7 @@
             this.labelObject.Location = new System.Drawing.Point(6, 48);
             this.labelObject.Margin = new System.Windows.Forms.Padding(3);
             this.labelObject.Name = "labelObject";
-            this.labelObject.Size = new System.Drawing.Size(377, 86);
+            this.labelObject.Size = new System.Drawing.Size(377, 50);
             this.labelObject.TabIndex = 10;
             this.labelObject.Text = "[object data]";
             // 
@@ -210,7 +216,7 @@
             this.labelAuthorize.Location = new System.Drawing.Point(6, 93);
             this.labelAuthorize.Margin = new System.Windows.Forms.Padding(3);
             this.labelAuthorize.Name = "labelAuthorize";
-            this.labelAuthorize.Size = new System.Drawing.Size(377, 78);
+            this.labelAuthorize.Size = new System.Drawing.Size(377, 50);
             this.labelAuthorize.TabIndex = 10;
             this.labelAuthorize.Text = "[connection info]";
             // 
@@ -222,9 +228,9 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.textBoxUsername);
             this.groupBox1.Controls.Add(this.textBoxPassword);
-            this.groupBox1.Location = new System.Drawing.Point(12, 538);
+            this.groupBox1.Location = new System.Drawing.Point(12, 505);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(389, 177);
+            this.groupBox1.Size = new System.Drawing.Size(389, 151);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Authorize";
@@ -237,7 +243,7 @@
             this.groupBox2.Controls.Add(this.labelObject);
             this.groupBox2.Location = new System.Drawing.Point(12, 392);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(389, 140);
+            this.groupBox2.Size = new System.Drawing.Size(389, 107);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Read object as json";
@@ -270,7 +276,7 @@
             this.groupBox3.Size = new System.Drawing.Size(389, 195);
             this.groupBox3.TabIndex = 16;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Read texts list";
+            this.groupBox3.Text = "Texts list";
             // 
             // label5
             // 
@@ -307,28 +313,77 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.richTextBoxLog);
-            this.groupBox6.Location = new System.Drawing.Point(12, 723);
+            this.groupBox6.Controls.Add(this.Log);
+            this.groupBox6.Location = new System.Drawing.Point(407, 12);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(389, 100);
+            this.groupBox6.Size = new System.Drawing.Size(389, 729);
             this.groupBox6.TabIndex = 19;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Log";
             // 
-            // richTextBoxLog
+            // Log
             // 
-            this.richTextBoxLog.Location = new System.Drawing.Point(6, 19);
-            this.richTextBoxLog.Name = "richTextBoxLog";
-            this.richTextBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBoxLog.Size = new System.Drawing.Size(377, 75);
-            this.richTextBoxLog.TabIndex = 6;
-            this.richTextBoxLog.Text = "";
+            this.Log.Location = new System.Drawing.Point(6, 19);
+            this.Log.Name = "Log";
+            this.Log.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.Log.Size = new System.Drawing.Size(377, 700);
+            this.Log.TabIndex = 6;
+            this.Log.Text = "";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.comboBoxFiles);
+            this.groupBox7.Controls.Add(this.buttonRefreshFiles);
+            this.groupBox7.Controls.Add(this.buttonDownloadFIle);
+            this.groupBox7.Controls.Add(this.buttonUploadFile);
+            this.groupBox7.Location = new System.Drawing.Point(12, 662);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(389, 79);
+            this.groupBox7.TabIndex = 20;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Files";
+            // 
+            // buttonUploadFile
+            // 
+            this.buttonUploadFile.Location = new System.Drawing.Point(284, 46);
+            this.buttonUploadFile.Name = "buttonUploadFile";
+            this.buttonUploadFile.Size = new System.Drawing.Size(99, 23);
+            this.buttonUploadFile.TabIndex = 21;
+            this.buttonUploadFile.Text = "Upload new file";
+            this.buttonUploadFile.UseVisualStyleBackColor = true;
+            // 
+            // buttonRefreshFiles
+            // 
+            this.buttonRefreshFiles.Location = new System.Drawing.Point(284, 18);
+            this.buttonRefreshFiles.Name = "buttonRefreshFiles";
+            this.buttonRefreshFiles.Size = new System.Drawing.Size(99, 21);
+            this.buttonRefreshFiles.TabIndex = 21;
+            this.buttonRefreshFiles.Text = "Refresh";
+            this.buttonRefreshFiles.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxFiles
+            // 
+            this.comboBoxFiles.FormattingEnabled = true;
+            this.comboBoxFiles.Location = new System.Drawing.Point(6, 19);
+            this.comboBoxFiles.Name = "comboBoxFiles";
+            this.comboBoxFiles.Size = new System.Drawing.Size(272, 21);
+            this.comboBoxFiles.TabIndex = 22;
+            // 
+            // buttonDownloadFIle
+            // 
+            this.buttonDownloadFIle.Location = new System.Drawing.Point(6, 46);
+            this.buttonDownloadFIle.Name = "buttonDownloadFIle";
+            this.buttonDownloadFIle.Size = new System.Drawing.Size(99, 23);
+            this.buttonDownloadFIle.TabIndex = 21;
+            this.buttonDownloadFIle.Text = "Download file";
+            this.buttonDownloadFIle.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(413, 835);
+            this.ClientSize = new System.Drawing.Size(808, 756);
+            this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -350,6 +405,7 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -382,7 +438,12 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.RichTextBox richTextBoxLog;
+        private System.Windows.Forms.RichTextBox Log;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.ComboBox comboBoxFiles;
+        private System.Windows.Forms.Button buttonRefreshFiles;
+        private System.Windows.Forms.Button buttonDownloadFIle;
+        private System.Windows.Forms.Button buttonUploadFile;
     }
 }
 
