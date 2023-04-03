@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,7 +14,7 @@ namespace ClientDesktopApp
 {
     public partial class Form1 : Form
     {
-        WebConnector connector;
+        HttpClient client = new HttpClient();
         public Form1()
         {
             InitializeComponent();
@@ -22,18 +23,41 @@ namespace ClientDesktopApp
         private void buttonConnect_Click(object sender, EventArgs e)
         {
             string serverUrl = textBoxServerUrl.Text;
-            Log.Text += $"\nTry connect to {serverUrl}...";
+            Log($"Try connect to {serverUrl}...");
             if (Internet.Ok(serverUrl))
             {
-                Log.Text += "\nInternet OK";
+                Log("Internet OK");
             }
             else
             {
-                Log.Text += "\nInternet FAIL";
+                Log("Internet OK");
                 return;
             }
 
-            connector = new WebConnector(textBoxServerUrl.Text);
+            client.BaseAddress = new Uri(serverUrl);
+        }
+
+        private async void buttonReadText_Click(object sender, EventArgs e)
+        {
+            string route = "api/DesktopApi/ReadText";
+            Log($"Try connect to {route}...");
+            HttpResponseMessage responseMessage = await client.GetAsync(route);
+            if(responseMessage.IsSuccessStatusCode)
+            {
+                Log("Success!");
+            }
+            else
+            {
+                Log("Failed!");
+                return;
+            }
+            string answer = await responseMessage.Content.ReadAsStringAsync();
+            Log(answer);
+        }
+
+        private void Log(string log)
+        {
+            rtbLog.Text += $"{DateTime.Now.ToLongTimeString()}\t{log}\n";
         }
     }
 }

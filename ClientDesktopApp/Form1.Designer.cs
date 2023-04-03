@@ -47,19 +47,19 @@
             this.labelAuthorize = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.numericObjectId = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
+            this.numericObjectId = new System.Windows.Forms.NumericUpDown();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.Log = new System.Windows.Forms.RichTextBox();
+            this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.buttonUploadFile = new System.Windows.Forms.Button();
-            this.buttonRefreshFiles = new System.Windows.Forms.Button();
             this.comboBoxFiles = new System.Windows.Forms.ComboBox();
+            this.buttonRefreshFiles = new System.Windows.Forms.Button();
             this.buttonDownloadFIle = new System.Windows.Forms.Button();
+            this.buttonUploadFile = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericObjectId)).BeginInit();
@@ -106,6 +106,7 @@
             this.buttonReadText.TabIndex = 3;
             this.buttonReadText.Text = "Read text";
             this.buttonReadText.UseVisualStyleBackColor = true;
+            this.buttonReadText.Click += new System.EventHandler(this.buttonReadText_Click);
             // 
             // textBoxReadText
             // 
@@ -248,13 +249,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Read object as json";
             // 
-            // numericObjectId
-            // 
-            this.numericObjectId.Location = new System.Drawing.Point(32, 19);
-            this.numericObjectId.Name = "numericObjectId";
-            this.numericObjectId.Size = new System.Drawing.Size(120, 20);
-            this.numericObjectId.TabIndex = 16;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -263,6 +257,13 @@
             this.label4.Size = new System.Drawing.Size(19, 13);
             this.label4.TabIndex = 17;
             this.label4.Text = "Id:";
+            // 
+            // numericObjectId
+            // 
+            this.numericObjectId.Location = new System.Drawing.Point(32, 19);
+            this.numericObjectId.Name = "numericObjectId";
+            this.numericObjectId.Size = new System.Drawing.Size(120, 20);
+            this.numericObjectId.TabIndex = 16;
             // 
             // groupBox3
             // 
@@ -313,7 +314,7 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.Log);
+            this.groupBox6.Controls.Add(this.rtbLog);
             this.groupBox6.Location = new System.Drawing.Point(407, 12);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(389, 729);
@@ -321,14 +322,14 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Log";
             // 
-            // Log
+            // rtbLog
             // 
-            this.Log.Location = new System.Drawing.Point(6, 19);
-            this.Log.Name = "Log";
-            this.Log.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.Log.Size = new System.Drawing.Size(377, 700);
-            this.Log.TabIndex = 6;
-            this.Log.Text = "";
+            this.rtbLog.Location = new System.Drawing.Point(6, 19);
+            this.rtbLog.Name = "rtbLog";
+            this.rtbLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.rtbLog.Size = new System.Drawing.Size(377, 700);
+            this.rtbLog.TabIndex = 6;
+            this.rtbLog.Text = "";
             // 
             // groupBox7
             // 
@@ -343,14 +344,13 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Files";
             // 
-            // buttonUploadFile
+            // comboBoxFiles
             // 
-            this.buttonUploadFile.Location = new System.Drawing.Point(284, 46);
-            this.buttonUploadFile.Name = "buttonUploadFile";
-            this.buttonUploadFile.Size = new System.Drawing.Size(99, 23);
-            this.buttonUploadFile.TabIndex = 21;
-            this.buttonUploadFile.Text = "Upload new file";
-            this.buttonUploadFile.UseVisualStyleBackColor = true;
+            this.comboBoxFiles.FormattingEnabled = true;
+            this.comboBoxFiles.Location = new System.Drawing.Point(6, 19);
+            this.comboBoxFiles.Name = "comboBoxFiles";
+            this.comboBoxFiles.Size = new System.Drawing.Size(272, 21);
+            this.comboBoxFiles.TabIndex = 22;
             // 
             // buttonRefreshFiles
             // 
@@ -361,14 +361,6 @@
             this.buttonRefreshFiles.Text = "Refresh";
             this.buttonRefreshFiles.UseVisualStyleBackColor = true;
             // 
-            // comboBoxFiles
-            // 
-            this.comboBoxFiles.FormattingEnabled = true;
-            this.comboBoxFiles.Location = new System.Drawing.Point(6, 19);
-            this.comboBoxFiles.Name = "comboBoxFiles";
-            this.comboBoxFiles.Size = new System.Drawing.Size(272, 21);
-            this.comboBoxFiles.TabIndex = 22;
-            // 
             // buttonDownloadFIle
             // 
             this.buttonDownloadFIle.Location = new System.Drawing.Point(6, 46);
@@ -377,6 +369,15 @@
             this.buttonDownloadFIle.TabIndex = 21;
             this.buttonDownloadFIle.Text = "Download file";
             this.buttonDownloadFIle.UseVisualStyleBackColor = true;
+            // 
+            // buttonUploadFile
+            // 
+            this.buttonUploadFile.Location = new System.Drawing.Point(284, 46);
+            this.buttonUploadFile.Name = "buttonUploadFile";
+            this.buttonUploadFile.Size = new System.Drawing.Size(99, 23);
+            this.buttonUploadFile.TabIndex = 21;
+            this.buttonUploadFile.Text = "Upload new file";
+            this.buttonUploadFile.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -438,7 +439,7 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.RichTextBox Log;
+        private System.Windows.Forms.RichTextBox rtbLog;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.ComboBox comboBoxFiles;
         private System.Windows.Forms.Button buttonRefreshFiles;
