@@ -60,6 +60,7 @@
             this.buttonDownloadFIle = new System.Windows.Forms.Button();
             this.buttonUploadFile = new System.Windows.Forms.Button();
             this.textBoxTextsList = new System.Windows.Forms.TextBox();
+            this.buttonReadAllObjects = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericObjectId)).BeginInit();
@@ -241,6 +242,7 @@
             // 
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.numericObjectId);
+            this.groupBox2.Controls.Add(this.buttonReadAllObjects);
             this.groupBox2.Controls.Add(this.buttonReadObject);
             this.groupBox2.Controls.Add(this.labelObject);
             this.groupBox2.Location = new System.Drawing.Point(12, 392);
@@ -396,6 +398,16 @@
             this.textBoxTextsList.Size = new System.Drawing.Size(377, 58);
             this.textBoxTextsList.TabIndex = 8;
             // 
+            // buttonReadAllObjects
+            // 
+            this.buttonReadAllObjects.Enabled = false;
+            this.buttonReadAllObjects.Location = new System.Drawing.Point(284, 19);
+            this.buttonReadAllObjects.Name = "buttonReadAllObjects";
+            this.buttonReadAllObjects.Size = new System.Drawing.Size(99, 20);
+            this.buttonReadAllObjects.TabIndex = 9;
+            this.buttonReadAllObjects.Text = "Read all objects";
+            this.buttonReadAllObjects.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -462,6 +474,7 @@
         private System.Windows.Forms.Button buttonDownloadFIle;
         private System.Windows.Forms.Button buttonUploadFile;
         private System.Windows.Forms.TextBox textBoxTextsList;
+        private System.Windows.Forms.Button buttonReadAllObjects;
     }
 }
 

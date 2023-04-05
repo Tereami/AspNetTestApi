@@ -6,12 +6,12 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DomainModel;
-using Newtonsoft.Json;
 
 namespace ClientDesktopApp
 {
@@ -51,8 +51,10 @@ namespace ClientDesktopApp
             }
         }
 
-        private async Task<string> SendRequestAndReadText(string route)
+
+        private async void buttonReadText_Click(object sender, EventArgs e)
         {
+            string route = "api/DesktopApi/ReadText";
             Log($"Try connect to {route}...");
             HttpResponseMessage responseMessage = await client.GetAsync(route);
             if (responseMessage.IsSuccessStatusCode)
@@ -62,17 +64,8 @@ namespace ClientDesktopApp
             else
             {
                 Log($"{route} - failed!");
-                return "Failed";
             }
             string answer = await responseMessage.Content.ReadAsStringAsync();
-            Log(answer);
-            return answer;
-        }
-
-        private async void buttonReadText_Click(object sender, EventArgs e)
-        {
-            string route = "api/DesktopApi/ReadText";
-            string answer = await SendRequestAndReadText(route);
             textBoxReadText.Text = answer;
             Log("Read text finished");
         }
@@ -88,9 +81,9 @@ namespace ClientDesktopApp
         {
             textBoxTextsList.Clear();
             string route = "api/DesktopApi/ReadTextsList";
-            string answer = await SendRequestAndReadText(route);
-            List<string> texts = JsonConvert.DeserializeObject<List<string>>(answer);
-            foreach(string line in texts)
+            Log($"Try connect to {route}...");
+            List<string> texts = await client.GetFromJsonAsync<List<string>>(route);
+            foreach (string line in texts)
             {
                 textBoxTextsList.Text += $"{line}{nl}";
             }
