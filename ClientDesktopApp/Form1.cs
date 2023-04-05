@@ -77,7 +77,7 @@ namespace ClientDesktopApp
             rtbLog.Text += $"{DateTime.Now.ToString("HH:mm:ss.fff")}\t{log}\n";
         }
 
-        
+
 
         private async void buttonReadTextList_Click(object sender, EventArgs e)
         {
@@ -97,11 +97,11 @@ namespace ClientDesktopApp
             string text = textBoxTextToAdd.Text;
             string route = $"api/DesktopApi/AddTextToList/{text}";
             Log($"Try connect to {route}...");
-            
+
             //
             //StringContent stringContent = new StringContent(text, Encoding.UTF8);
             //using (HttpResponseMessage response = await client.PostAsync(route, stringContent))
-            using(HttpResponseMessage response = await client.GetAsync(route))
+            using (HttpResponseMessage response = await client.GetAsync(route))
             {
                 if (response.IsSuccessStatusCode)
                     Log($"Success: {response.StatusCode}");
@@ -115,13 +115,38 @@ namespace ClientDesktopApp
 
         private void buttonAddTextToList_MouseEnter(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxTextToAdd.Text)) 
+            if (string.IsNullOrEmpty(textBoxTextToAdd.Text))
                 buttonAddTextToList.Enabled = false;
         }
 
         private void textBoxTextToAdd_TextChanged(object sender, EventArgs e)
         {
             buttonAddTextToList.Enabled = true;
+        }
+
+        private async void buttonReadObject_Click(object sender, EventArgs e)
+        {
+            int id = (int)numericObjectId.Value;
+            string route = $"api/DesktopApi/ReadComplexObjectAsJson/{id}";
+            Log($"Try connect to {route}...");
+
+            using (HttpResponseMessage response = await client.GetAsync(route))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    Log($"Failed: {response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
+                    return;
+                }
+                else
+                {
+                    Log($"Success! JSON:{await response.Content.ReadAsStringAsync()}");
+                }
+                TestObject testObject = await response.Content.ReadFromJsonAsync<TestObject>();
+                textBoxObject.Text = $"Name: {testObject.Name}{nl}" +
+                    $"Description: {testObject.Description}{nl}" +
+                    $"Created time: {testObject.CreatedAt}{nl}" +
+                    $"Tags: {string.Join(", ", testObject.Tags)}";
+            }
         }
     }
 }

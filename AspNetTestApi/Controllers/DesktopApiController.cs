@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using DomainModel;
 using Microsoft.AspNetCore.Http;
+using System.Reflection.Metadata.Ecma335;
 
 namespace AspNetTestApi.Controllers
 {
@@ -12,6 +13,10 @@ namespace AspNetTestApi.Controllers
     public class DesktopApiController : ControllerBase
     {
         public static List<string> texts = new List<string> { "Text1", "Текст2" };
+        public static List<TestObject> objects = new List<TestObject>
+        {
+            new TestObject(0, "First объект", "First описание", new List<string> {"tag1", "тэг2"})
+        };
 
         public IActionResult ReadText()
         {
@@ -20,10 +25,34 @@ namespace AspNetTestApi.Controllers
             return Content(text);
         }
 
-        public TestObject ReadComplexObjectAsJson()
+        //[HttpGet("{id}")]
+        //public TestObject ReadComplexObjectAsJson(int id)
+        //{
+        //    TestObject? o = objects.FirstOrDefault(i => i.Id == id)
+        //        ?? throw new InvalidOperationException($"Object id {id} not found");
+
+        //    return o; //объект должен сериализоваться в json? да, но неудобно возвращать сообщения или статус коды
+        //}
+        //[HttpGet("{id}")]
+        //public async Task ReadComplexObjectAsJson(int id, HttpResponse response)
+        //{
+        //    TestObject? o = objects.FirstOrDefault(i => i.Id == id);
+        //    if (o == null)
+        //    {
+        //        response.StatusCode = 404; // NotFound($"Object id{id} not exists");
+        //        return;
+        //    }
+        //    await response.WriteAsJsonAsync(o); //не работает, эксепшн на стороне клиента
+        //}
+
+        [HttpGet("{id}")]
+        public IResult ReadComplexObjectAsJson(int id)
         {
-            TestObject o = new TestObject(1, "Test", "Описание", new List<string> { "One", "Two", "Три" });
-            return o; //объект должен сериализоваться в json
+            TestObject? o = objects.FirstOrDefault(i => i.Id == id);
+            if (o == null)
+                return Results.NotFound($"Object id {id} not found");
+
+            return Results.Json(o); //а вот так всё работает
         }
 
         public List<string> ReadTextsList()
@@ -40,7 +69,7 @@ namespace AspNetTestApi.Controllers
             {
                 return BadRequest("Parameter \"text\" is null!");
             }
-            if(texts.Contains(text))
+            if (texts.Contains(text))
             {
                 return BadRequest($"Text {text} already exists!");
             }
@@ -77,16 +106,16 @@ namespace AspNetTestApi.Controllers
             string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files");
             IFormFileCollection formFiles = Request.Form.Files;
             if (formFiles.Count == 0)
-                return BadRequest(new {type = "error", msg = "No files нет файлов"});
+                return BadRequest(new { type = "error", msg = "No files нет файлов" });
             if (formFiles.Count > 1)
                 return BadRequest(new { type = "error", msg = "More than 1 file Допускается только 1 файл" });
 
             IFormFile file = formFiles[0];
             string filePath = Path.Combine(folder, filename);
-            if(System.IO.File.Exists(filePath))
+            if (System.IO.File.Exists(filePath))
                 return Content("File is already exists Файл уже существует");
 
-            using(FileStream stream = new FileStream(filePath, FileMode.Create))
+            using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
 
             }

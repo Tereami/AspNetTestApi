@@ -37,7 +37,6 @@
             this.buttonAddTextToList = new System.Windows.Forms.Button();
             this.textBoxTextToAdd = new System.Windows.Forms.TextBox();
             this.buttonReadObject = new System.Windows.Forms.Button();
-            this.labelObject = new System.Windows.Forms.Label();
             this.buttonAuthorize = new System.Windows.Forms.Button();
             this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -60,6 +59,9 @@
             this.buttonRefreshFiles = new System.Windows.Forms.Button();
             this.buttonDownloadFIle = new System.Windows.Forms.Button();
             this.buttonUploadFile = new System.Windows.Forms.Button();
+            this.buttonAddObject = new System.Windows.Forms.Button();
+            this.buttonAddObjectV2 = new System.Windows.Forms.Button();
+            this.textBoxObject = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericObjectId)).BeginInit();
@@ -152,22 +154,13 @@
             // buttonReadObject
             // 
             this.buttonReadObject.Enabled = false;
-            this.buttonReadObject.Location = new System.Drawing.Point(158, 19);
+            this.buttonReadObject.Location = new System.Drawing.Point(87, 19);
             this.buttonReadObject.Name = "buttonReadObject";
             this.buttonReadObject.Size = new System.Drawing.Size(99, 20);
             this.buttonReadObject.TabIndex = 9;
             this.buttonReadObject.Text = "Read object";
             this.buttonReadObject.UseVisualStyleBackColor = true;
-            // 
-            // labelObject
-            // 
-            this.labelObject.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelObject.Location = new System.Drawing.Point(6, 48);
-            this.labelObject.Margin = new System.Windows.Forms.Padding(3);
-            this.labelObject.Name = "labelObject";
-            this.labelObject.Size = new System.Drawing.Size(377, 50);
-            this.labelObject.TabIndex = 10;
-            this.labelObject.Text = "[object data]";
+            this.buttonReadObject.Click += new System.EventHandler(this.buttonReadObject_Click);
             // 
             // buttonAuthorize
             // 
@@ -244,8 +237,10 @@
             // 
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.numericObjectId);
+            this.groupBox2.Controls.Add(this.textBoxObject);
+            this.groupBox2.Controls.Add(this.buttonAddObjectV2);
+            this.groupBox2.Controls.Add(this.buttonAddObject);
             this.groupBox2.Controls.Add(this.buttonReadObject);
-            this.groupBox2.Controls.Add(this.labelObject);
             this.groupBox2.Location = new System.Drawing.Point(12, 392);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(389, 107);
@@ -267,7 +262,7 @@
             this.numericObjectId.Enabled = false;
             this.numericObjectId.Location = new System.Drawing.Point(32, 19);
             this.numericObjectId.Name = "numericObjectId";
-            this.numericObjectId.Size = new System.Drawing.Size(120, 20);
+            this.numericObjectId.Size = new System.Drawing.Size(49, 20);
             this.numericObjectId.TabIndex = 16;
             // 
             // groupBox3
@@ -400,6 +395,37 @@
             this.buttonUploadFile.Text = "Upload new file";
             this.buttonUploadFile.UseVisualStyleBackColor = true;
             // 
+            // buttonAddObject
+            // 
+            this.buttonAddObject.Enabled = false;
+            this.buttonAddObject.Location = new System.Drawing.Point(205, 19);
+            this.buttonAddObject.Name = "buttonAddObject";
+            this.buttonAddObject.Size = new System.Drawing.Size(86, 20);
+            this.buttonAddObject.TabIndex = 9;
+            this.buttonAddObject.Text = "Add object";
+            this.buttonAddObject.UseVisualStyleBackColor = true;
+            // 
+            // buttonAddObjectV2
+            // 
+            this.buttonAddObjectV2.Enabled = false;
+            this.buttonAddObjectV2.Location = new System.Drawing.Point(297, 19);
+            this.buttonAddObjectV2.Name = "buttonAddObjectV2";
+            this.buttonAddObjectV2.Size = new System.Drawing.Size(86, 20);
+            this.buttonAddObjectV2.TabIndex = 9;
+            this.buttonAddObjectV2.Text = "Add object v2";
+            this.buttonAddObjectV2.UseVisualStyleBackColor = true;
+            // 
+            // textBoxObject
+            // 
+            this.textBoxObject.Enabled = false;
+            this.textBoxObject.Location = new System.Drawing.Point(6, 49);
+            this.textBoxObject.Multiline = true;
+            this.textBoxObject.Name = "textBoxObject";
+            this.textBoxObject.ReadOnly = true;
+            this.textBoxObject.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxObject.Size = new System.Drawing.Size(377, 52);
+            this.textBoxObject.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -443,7 +469,6 @@
         private System.Windows.Forms.Button buttonAddTextToList;
         private System.Windows.Forms.TextBox textBoxTextToAdd;
         private System.Windows.Forms.Button buttonReadObject;
-        private System.Windows.Forms.Label labelObject;
         private System.Windows.Forms.Button buttonAuthorize;
         private System.Windows.Forms.TextBox textBoxUsername;
         private System.Windows.Forms.Label label2;
@@ -466,6 +491,9 @@
         private System.Windows.Forms.Button buttonDownloadFIle;
         private System.Windows.Forms.Button buttonUploadFile;
         private System.Windows.Forms.TextBox textBoxTextsList;
+        private System.Windows.Forms.Button buttonAddObjectV2;
+        private System.Windows.Forms.Button buttonAddObject;
+        private System.Windows.Forms.TextBox textBoxObject;
     }
 }
 
