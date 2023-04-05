@@ -10,11 +10,12 @@ namespace AspNetTestApi.Controllers
     [Route("api/[controller]/[action]")]
     public class DesktopApiController : ControllerBase
     {
-        private List<string> texts = new List<string>();
+        private List<string> texts = new List<string> { "Text1", "Текст2" };
 
         public IActionResult ReadText()
         {
             string text = "ABCDabcd_АБВГабвг1234 ~!@#$%^&*()_+=\"<>,.";
+            Thread.Sleep(5000);
             return Content(text);
         }
 
@@ -24,7 +25,12 @@ namespace AspNetTestApi.Controllers
             return o; //объект должен сериализоваться в json
         }
 
-        public IActionResult SaveText(string text)
+        public List<string> ReadTextsList()
+        {
+            return texts;
+        }
+
+        public IActionResult AddTextToList(string text)
         {
             texts.Add(text);
             return Ok();

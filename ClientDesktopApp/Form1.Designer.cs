@@ -34,7 +34,6 @@
             this.buttonReadText = new System.Windows.Forms.Button();
             this.textBoxReadText = new System.Windows.Forms.TextBox();
             this.buttonReadTextList = new System.Windows.Forms.Button();
-            this.richTextBoxTextsList = new System.Windows.Forms.RichTextBox();
             this.buttonAddTextToList = new System.Windows.Forms.Button();
             this.textBoxTextToAdd = new System.Windows.Forms.TextBox();
             this.buttonReadObject = new System.Windows.Forms.Button();
@@ -60,6 +59,7 @@
             this.buttonRefreshFiles = new System.Windows.Forms.Button();
             this.buttonDownloadFIle = new System.Windows.Forms.Button();
             this.buttonUploadFile = new System.Windows.Forms.Button();
+            this.textBoxTextsList = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericObjectId)).BeginInit();
@@ -100,6 +100,7 @@
             // 
             // buttonReadText
             // 
+            this.buttonReadText.Enabled = false;
             this.buttonReadText.Location = new System.Drawing.Point(6, 19);
             this.buttonReadText.Name = "buttonReadText";
             this.buttonReadText.Size = new System.Drawing.Size(99, 23);
@@ -110,6 +111,7 @@
             // 
             // textBoxReadText
             // 
+            this.textBoxReadText.Enabled = false;
             this.textBoxReadText.Location = new System.Drawing.Point(6, 48);
             this.textBoxReadText.Name = "textBoxReadText";
             this.textBoxReadText.Size = new System.Drawing.Size(377, 20);
@@ -117,24 +119,18 @@
             // 
             // buttonReadTextList
             // 
+            this.buttonReadTextList.Enabled = false;
             this.buttonReadTextList.Location = new System.Drawing.Point(6, 19);
             this.buttonReadTextList.Name = "buttonReadTextList";
             this.buttonReadTextList.Size = new System.Drawing.Size(99, 23);
             this.buttonReadTextList.TabIndex = 5;
             this.buttonReadTextList.Text = "Read";
             this.buttonReadTextList.UseVisualStyleBackColor = true;
-            // 
-            // richTextBoxTextsList
-            // 
-            this.richTextBoxTextsList.Location = new System.Drawing.Point(6, 48);
-            this.richTextBoxTextsList.Name = "richTextBoxTextsList";
-            this.richTextBoxTextsList.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBoxTextsList.Size = new System.Drawing.Size(377, 58);
-            this.richTextBoxTextsList.TabIndex = 6;
-            this.richTextBoxTextsList.Text = "";
+            this.buttonReadTextList.Click += new System.EventHandler(this.buttonReadTextList_Click);
             // 
             // buttonAddTextToList
             // 
+            this.buttonAddTextToList.Enabled = false;
             this.buttonAddTextToList.Location = new System.Drawing.Point(6, 162);
             this.buttonAddTextToList.Name = "buttonAddTextToList";
             this.buttonAddTextToList.Size = new System.Drawing.Size(99, 23);
@@ -144,6 +140,7 @@
             // 
             // textBoxTextToAdd
             // 
+            this.textBoxTextToAdd.Enabled = false;
             this.textBoxTextToAdd.Location = new System.Drawing.Point(6, 136);
             this.textBoxTextToAdd.Name = "textBoxTextToAdd";
             this.textBoxTextToAdd.Size = new System.Drawing.Size(377, 20);
@@ -151,6 +148,7 @@
             // 
             // buttonReadObject
             // 
+            this.buttonReadObject.Enabled = false;
             this.buttonReadObject.Location = new System.Drawing.Point(158, 19);
             this.buttonReadObject.Name = "buttonReadObject";
             this.buttonReadObject.Size = new System.Drawing.Size(99, 20);
@@ -170,6 +168,7 @@
             // 
             // buttonAuthorize
             // 
+            this.buttonAuthorize.Enabled = false;
             this.buttonAuthorize.Location = new System.Drawing.Point(6, 64);
             this.buttonAuthorize.Name = "buttonAuthorize";
             this.buttonAuthorize.Size = new System.Drawing.Size(99, 23);
@@ -179,6 +178,7 @@
             // 
             // textBoxUsername
             // 
+            this.textBoxUsername.Enabled = false;
             this.textBoxUsername.Location = new System.Drawing.Point(6, 38);
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.Size = new System.Drawing.Size(175, 20);
@@ -196,6 +196,7 @@
             // 
             // textBoxPassword
             // 
+            this.textBoxPassword.Enabled = false;
             this.textBoxPassword.Location = new System.Drawing.Point(208, 38);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(175, 20);
@@ -260,6 +261,7 @@
             // 
             // numericObjectId
             // 
+            this.numericObjectId.Enabled = false;
             this.numericObjectId.Location = new System.Drawing.Point(32, 19);
             this.numericObjectId.Name = "numericObjectId";
             this.numericObjectId.Size = new System.Drawing.Size(120, 20);
@@ -269,7 +271,7 @@
             // 
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.buttonReadTextList);
-            this.groupBox3.Controls.Add(this.richTextBoxTextsList);
+            this.groupBox3.Controls.Add(this.textBoxTextsList);
             this.groupBox3.Controls.Add(this.textBoxTextToAdd);
             this.groupBox3.Controls.Add(this.buttonAddTextToList);
             this.groupBox3.Location = new System.Drawing.Point(12, 191);
@@ -326,6 +328,7 @@
             // 
             this.rtbLog.Location = new System.Drawing.Point(6, 19);
             this.rtbLog.Name = "rtbLog";
+            this.rtbLog.ReadOnly = true;
             this.rtbLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.rtbLog.Size = new System.Drawing.Size(377, 700);
             this.rtbLog.TabIndex = 6;
@@ -346,6 +349,7 @@
             // 
             // comboBoxFiles
             // 
+            this.comboBoxFiles.Enabled = false;
             this.comboBoxFiles.FormattingEnabled = true;
             this.comboBoxFiles.Location = new System.Drawing.Point(6, 19);
             this.comboBoxFiles.Name = "comboBoxFiles";
@@ -354,6 +358,7 @@
             // 
             // buttonRefreshFiles
             // 
+            this.buttonRefreshFiles.Enabled = false;
             this.buttonRefreshFiles.Location = new System.Drawing.Point(284, 18);
             this.buttonRefreshFiles.Name = "buttonRefreshFiles";
             this.buttonRefreshFiles.Size = new System.Drawing.Size(99, 21);
@@ -363,6 +368,7 @@
             // 
             // buttonDownloadFIle
             // 
+            this.buttonDownloadFIle.Enabled = false;
             this.buttonDownloadFIle.Location = new System.Drawing.Point(6, 46);
             this.buttonDownloadFIle.Name = "buttonDownloadFIle";
             this.buttonDownloadFIle.Size = new System.Drawing.Size(99, 23);
@@ -372,12 +378,23 @@
             // 
             // buttonUploadFile
             // 
+            this.buttonUploadFile.Enabled = false;
             this.buttonUploadFile.Location = new System.Drawing.Point(284, 46);
             this.buttonUploadFile.Name = "buttonUploadFile";
             this.buttonUploadFile.Size = new System.Drawing.Size(99, 23);
             this.buttonUploadFile.TabIndex = 21;
             this.buttonUploadFile.Text = "Upload new file";
             this.buttonUploadFile.UseVisualStyleBackColor = true;
+            // 
+            // textBoxTextsList
+            // 
+            this.textBoxTextsList.Enabled = false;
+            this.textBoxTextsList.Location = new System.Drawing.Point(6, 48);
+            this.textBoxTextsList.Multiline = true;
+            this.textBoxTextsList.Name = "textBoxTextsList";
+            this.textBoxTextsList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxTextsList.Size = new System.Drawing.Size(377, 58);
+            this.textBoxTextsList.TabIndex = 8;
             // 
             // Form1
             // 
@@ -419,7 +436,6 @@
         private System.Windows.Forms.Button buttonReadText;
         private System.Windows.Forms.TextBox textBoxReadText;
         private System.Windows.Forms.Button buttonReadTextList;
-        private System.Windows.Forms.RichTextBox richTextBoxTextsList;
         private System.Windows.Forms.Button buttonAddTextToList;
         private System.Windows.Forms.TextBox textBoxTextToAdd;
         private System.Windows.Forms.Button buttonReadObject;
@@ -445,6 +461,7 @@
         private System.Windows.Forms.Button buttonRefreshFiles;
         private System.Windows.Forms.Button buttonDownloadFIle;
         private System.Windows.Forms.Button buttonUploadFile;
+        private System.Windows.Forms.TextBox textBoxTextsList;
     }
 }
 
