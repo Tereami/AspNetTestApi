@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using DomainModel;
+using Microsoft.AspNetCore.Http;
 
 namespace AspNetTestApi.Controllers
 {
@@ -10,7 +11,7 @@ namespace AspNetTestApi.Controllers
     [Route("api/[controller]/[action]")]
     public class DesktopApiController : ControllerBase
     {
-        private List<string> texts = new List<string> { "Text1", "Текст2" };
+        public static List<string> texts = new List<string> { "Text1", "Текст2" };
 
         public IActionResult ReadText()
         {
@@ -30,10 +31,22 @@ namespace AspNetTestApi.Controllers
             return texts;
         }
 
-        public IActionResult AddTextToList(string text)
+        [HttpGet("{text?}")]
+        public IActionResult AddTextToList(string? text)
         {
+            //using StreamReader reader = new StreamReader(HttpContext.Request.Body);
+            //string name = await reader.ReadToEndAsync();
+            if (string.IsNullOrEmpty(text))
+            {
+                return BadRequest("Parameter \"text\" is null!");
+            }
+            if(texts.Contains(text))
+            {
+                return BadRequest($"Text {text} already exists!");
+            }
             texts.Add(text);
-            return Ok();
+            Console.WriteLine($"Text added: {text}");
+            return Ok($"Text is added: {text}");
         }
 
         [Authorize]

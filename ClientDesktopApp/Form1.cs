@@ -56,17 +56,19 @@ namespace ClientDesktopApp
         {
             string route = "api/DesktopApi/ReadText";
             Log($"Try connect to {route}...");
-            HttpResponseMessage responseMessage = await client.GetAsync(route);
-            if (responseMessage.IsSuccessStatusCode)
+            using (HttpResponseMessage responseMessage = await client.GetAsync(route))
             {
-                Log($"{route} - success!");
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    Log($"{route} - success!");
+                }
+                else
+                {
+                    Log($"{route} - failed!");
+                }
+                string response = await responseMessage.Content.ReadAsStringAsync();
+                textBoxReadText.Text = response;
             }
-            else
-            {
-                Log($"{route} - failed!");
-            }
-            string answer = await responseMessage.Content.ReadAsStringAsync();
-            textBoxReadText.Text = answer;
             Log("Read text finished");
         }
 
@@ -88,6 +90,38 @@ namespace ClientDesktopApp
                 textBoxTextsList.Text += $"{line}{nl}";
             }
             Log("Read texts list finished");
+        }
+
+        private async void buttonAddTextToList_Click(object sender, EventArgs e)
+        {
+            string text = textBoxTextToAdd.Text;
+            string route = $"api/DesktopApi/AddTextToList/{text}";
+            Log($"Try connect to {route}...");
+            
+            //
+            //StringContent stringContent = new StringContent(text, Encoding.UTF8);
+            //using (HttpResponseMessage response = await client.PostAsync(route, stringContent))
+            using(HttpResponseMessage response = await client.GetAsync(route))
+            {
+                if (response.IsSuccessStatusCode)
+                    Log($"Success: {response.StatusCode}");
+                else
+                    Log($"Failed: {response.StatusCode}");
+                string responseText = await response.Content.ReadAsStringAsync();
+                Log(responseText);
+            }
+            Log("Add text finished!");
+        }
+
+        private void buttonAddTextToList_MouseEnter(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxTextToAdd.Text)) 
+                buttonAddTextToList.Enabled = false;
+        }
+
+        private void textBoxTextToAdd_TextChanged(object sender, EventArgs e)
+        {
+            buttonAddTextToList.Enabled = true;
         }
     }
 }

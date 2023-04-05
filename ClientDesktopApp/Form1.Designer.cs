@@ -50,6 +50,7 @@
             this.numericObjectId = new System.Windows.Forms.NumericUpDown();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.textBoxTextsList = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -59,8 +60,6 @@
             this.buttonRefreshFiles = new System.Windows.Forms.Button();
             this.buttonDownloadFIle = new System.Windows.Forms.Button();
             this.buttonUploadFile = new System.Windows.Forms.Button();
-            this.textBoxTextsList = new System.Windows.Forms.TextBox();
-            this.buttonReadAllObjects = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericObjectId)).BeginInit();
@@ -138,6 +137,8 @@
             this.buttonAddTextToList.TabIndex = 7;
             this.buttonAddTextToList.Text = "Add";
             this.buttonAddTextToList.UseVisualStyleBackColor = true;
+            this.buttonAddTextToList.Click += new System.EventHandler(this.buttonAddTextToList_Click);
+            this.buttonAddTextToList.MouseEnter += new System.EventHandler(this.buttonAddTextToList_MouseEnter);
             // 
             // textBoxTextToAdd
             // 
@@ -146,6 +147,7 @@
             this.textBoxTextToAdd.Name = "textBoxTextToAdd";
             this.textBoxTextToAdd.Size = new System.Drawing.Size(377, 20);
             this.textBoxTextToAdd.TabIndex = 8;
+            this.textBoxTextToAdd.TextChanged += new System.EventHandler(this.textBoxTextToAdd_TextChanged);
             // 
             // buttonReadObject
             // 
@@ -242,7 +244,6 @@
             // 
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.numericObjectId);
-            this.groupBox2.Controls.Add(this.buttonReadAllObjects);
             this.groupBox2.Controls.Add(this.buttonReadObject);
             this.groupBox2.Controls.Add(this.labelObject);
             this.groupBox2.Location = new System.Drawing.Point(12, 392);
@@ -292,6 +293,17 @@
             this.label5.Size = new System.Drawing.Size(108, 13);
             this.label5.TabIndex = 9;
             this.label5.Text = "Add a new text to list:";
+            // 
+            // textBoxTextsList
+            // 
+            this.textBoxTextsList.Enabled = false;
+            this.textBoxTextsList.Location = new System.Drawing.Point(6, 48);
+            this.textBoxTextsList.Multiline = true;
+            this.textBoxTextsList.Name = "textBoxTextsList";
+            this.textBoxTextsList.ReadOnly = true;
+            this.textBoxTextsList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxTextsList.Size = new System.Drawing.Size(377, 58);
+            this.textBoxTextsList.TabIndex = 8;
             // 
             // groupBox4
             // 
@@ -388,26 +400,6 @@
             this.buttonUploadFile.Text = "Upload new file";
             this.buttonUploadFile.UseVisualStyleBackColor = true;
             // 
-            // textBoxTextsList
-            // 
-            this.textBoxTextsList.Enabled = false;
-            this.textBoxTextsList.Location = new System.Drawing.Point(6, 48);
-            this.textBoxTextsList.Multiline = true;
-            this.textBoxTextsList.Name = "textBoxTextsList";
-            this.textBoxTextsList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxTextsList.Size = new System.Drawing.Size(377, 58);
-            this.textBoxTextsList.TabIndex = 8;
-            // 
-            // buttonReadAllObjects
-            // 
-            this.buttonReadAllObjects.Enabled = false;
-            this.buttonReadAllObjects.Location = new System.Drawing.Point(284, 19);
-            this.buttonReadAllObjects.Name = "buttonReadAllObjects";
-            this.buttonReadAllObjects.Size = new System.Drawing.Size(99, 20);
-            this.buttonReadAllObjects.TabIndex = 9;
-            this.buttonReadAllObjects.Text = "Read all objects";
-            this.buttonReadAllObjects.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -474,7 +466,6 @@
         private System.Windows.Forms.Button buttonDownloadFIle;
         private System.Windows.Forms.Button buttonUploadFile;
         private System.Windows.Forms.TextBox textBoxTextsList;
-        private System.Windows.Forms.Button buttonReadAllObjects;
     }
 }
 
