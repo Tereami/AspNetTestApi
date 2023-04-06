@@ -55,6 +55,29 @@ namespace AspNetTestApi.Controllers
             return Results.Json(o); //а вот так всё работает
         }
 
+        [HttpGet("{name}&{description}&{tags}")]
+        public IActionResult AddComplexObject(string name, string description, string tags)
+        {
+            if (objects.Any(i => i.Name == name))
+                return BadRequest($"Name {name} already exists");
+            int newId = 1 + objects.Max(i => i.Id);
+            List<string> tagsList = tags.Replace(" ", "").Split(',').ToList();
+            TestObject to = new TestObject(newId, name, description, tagsList);
+            objects.Add(to);
+            return Ok($"Object added with id {newId}");
+        }
+
+        [HttpPost]
+        public IResult AddComplexObjectPost(TestObject newObject)
+        {
+            string name = newObject.Name;
+            if (objects.Any(i => i.Name == name))
+                return Results.BadRequest($"Name {name} already exists");
+            newObject.Id = 1 + objects.Max(i => i.Id);
+            objects.Add(newObject);
+            return Results.Json(newObject);
+        }
+
         public List<string> ReadTextsList()
         {
             return texts;

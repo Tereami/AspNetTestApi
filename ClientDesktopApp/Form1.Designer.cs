@@ -47,6 +47,9 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.numericObjectId = new System.Windows.Forms.NumericUpDown();
+            this.textBoxObject = new System.Windows.Forms.TextBox();
+            this.buttonAddObjectV2 = new System.Windows.Forms.Button();
+            this.buttonAddObject = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textBoxTextsList = new System.Windows.Forms.TextBox();
@@ -59,9 +62,6 @@
             this.buttonRefreshFiles = new System.Windows.Forms.Button();
             this.buttonDownloadFIle = new System.Windows.Forms.Button();
             this.buttonUploadFile = new System.Windows.Forms.Button();
-            this.buttonAddObject = new System.Windows.Forms.Button();
-            this.buttonAddObjectV2 = new System.Windows.Forms.Button();
-            this.textBoxObject = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericObjectId)).BeginInit();
@@ -265,6 +265,39 @@
             this.numericObjectId.Size = new System.Drawing.Size(49, 20);
             this.numericObjectId.TabIndex = 16;
             // 
+            // textBoxObject
+            // 
+            this.textBoxObject.Enabled = false;
+            this.textBoxObject.Location = new System.Drawing.Point(6, 49);
+            this.textBoxObject.Multiline = true;
+            this.textBoxObject.Name = "textBoxObject";
+            this.textBoxObject.ReadOnly = true;
+            this.textBoxObject.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxObject.Size = new System.Drawing.Size(377, 52);
+            this.textBoxObject.TabIndex = 8;
+            // 
+            // buttonAddObjectV2
+            // 
+            this.buttonAddObjectV2.Enabled = false;
+            this.buttonAddObjectV2.Location = new System.Drawing.Point(297, 19);
+            this.buttonAddObjectV2.Name = "buttonAddObjectV2";
+            this.buttonAddObjectV2.Size = new System.Drawing.Size(86, 20);
+            this.buttonAddObjectV2.TabIndex = 9;
+            this.buttonAddObjectV2.Text = "Add object v2";
+            this.buttonAddObjectV2.UseVisualStyleBackColor = true;
+            this.buttonAddObjectV2.Click += new System.EventHandler(this.buttonAddObjectV2_Click);
+            // 
+            // buttonAddObject
+            // 
+            this.buttonAddObject.Enabled = false;
+            this.buttonAddObject.Location = new System.Drawing.Point(205, 19);
+            this.buttonAddObject.Name = "buttonAddObject";
+            this.buttonAddObject.Size = new System.Drawing.Size(86, 20);
+            this.buttonAddObject.TabIndex = 9;
+            this.buttonAddObject.Text = "Add object";
+            this.buttonAddObject.UseVisualStyleBackColor = true;
+            this.buttonAddObject.Click += new System.EventHandler(this.buttonAddObject_Click);
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label5);
@@ -394,37 +427,6 @@
             this.buttonUploadFile.TabIndex = 21;
             this.buttonUploadFile.Text = "Upload new file";
             this.buttonUploadFile.UseVisualStyleBackColor = true;
-            // 
-            // buttonAddObject
-            // 
-            this.buttonAddObject.Enabled = false;
-            this.buttonAddObject.Location = new System.Drawing.Point(205, 19);
-            this.buttonAddObject.Name = "buttonAddObject";
-            this.buttonAddObject.Size = new System.Drawing.Size(86, 20);
-            this.buttonAddObject.TabIndex = 9;
-            this.buttonAddObject.Text = "Add object";
-            this.buttonAddObject.UseVisualStyleBackColor = true;
-            // 
-            // buttonAddObjectV2
-            // 
-            this.buttonAddObjectV2.Enabled = false;
-            this.buttonAddObjectV2.Location = new System.Drawing.Point(297, 19);
-            this.buttonAddObjectV2.Name = "buttonAddObjectV2";
-            this.buttonAddObjectV2.Size = new System.Drawing.Size(86, 20);
-            this.buttonAddObjectV2.TabIndex = 9;
-            this.buttonAddObjectV2.Text = "Add object v2";
-            this.buttonAddObjectV2.UseVisualStyleBackColor = true;
-            // 
-            // textBoxObject
-            // 
-            this.textBoxObject.Enabled = false;
-            this.textBoxObject.Location = new System.Drawing.Point(6, 49);
-            this.textBoxObject.Multiline = true;
-            this.textBoxObject.Name = "textBoxObject";
-            this.textBoxObject.ReadOnly = true;
-            this.textBoxObject.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxObject.Size = new System.Drawing.Size(377, 52);
-            this.textBoxObject.TabIndex = 8;
             // 
             // Form1
             // 

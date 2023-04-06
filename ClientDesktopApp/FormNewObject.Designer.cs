@@ -69,14 +69,14 @@
             this.textBoxDescription.Location = new System.Drawing.Point(109, 38);
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(214, 20);
-            this.textBoxDescription.TabIndex = 1;
+            this.textBoxDescription.TabIndex = 2;
             // 
             // textBoxTags
             // 
             this.textBoxTags.Location = new System.Drawing.Point(109, 64);
             this.textBoxTags.Name = "textBoxTags";
             this.textBoxTags.Size = new System.Drawing.Size(214, 20);
-            this.textBoxTags.TabIndex = 1;
+            this.textBoxTags.TabIndex = 3;
             // 
             // label3
             // 
@@ -95,7 +95,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(248, 101);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 2;
+            this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "&Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -106,7 +106,7 @@
             this.buttonOk.Location = new System.Drawing.Point(167, 101);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
-            this.buttonOk.TabIndex = 2;
+            this.buttonOk.TabIndex = 4;
             this.buttonOk.Text = "&Ok";
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);

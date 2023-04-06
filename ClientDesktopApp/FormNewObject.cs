@@ -53,7 +53,7 @@ namespace ClientDesktopApp
                 model.Description = textBoxDescription.Text;
                 model.Tags = tags;
             }
-            this.DialogResult|= DialogResult.OK;
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }

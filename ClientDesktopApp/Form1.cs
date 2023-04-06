@@ -148,5 +148,47 @@ namespace ClientDesktopApp
                     $"Tags: {string.Join(", ", testObject.Tags)}";
             }
         }
+
+        //отправка через get
+        private async void buttonAddObject_Click(object sender, EventArgs e)
+        {
+            FormNewObject formNew = new FormNewObject();
+            if (formNew.ShowDialog() != DialogResult.OK) return;
+            TestObject newObject = formNew.model;
+
+            string name = newObject.Name;
+            string description = newObject.Description;
+            //List<string> tags = newObject.Tags;
+            string tags = string.Join(",", newObject.Tags);
+            string route = $"api/DesktopApi/AddComplexObject/{name}&{description}&{tags}";
+            using (HttpResponseMessage response = await client.GetAsync(route))
+            {
+                if (response.IsSuccessStatusCode)
+                    Log($"Success: {response.StatusCode}");
+                else
+                    Log($"Failed: {response.StatusCode}");
+                string responseText = await response.Content.ReadAsStringAsync();
+                Log(responseText);
+            }
+            Log("Add object finished!");
+        }
+
+        //отправка через post
+        private async void buttonAddObjectV2_Click(object sender, EventArgs e)
+        {
+            FormNewObject formNew = new FormNewObject();
+            if (formNew.ShowDialog() != DialogResult.OK) return;
+            TestObject newObject = formNew.model;
+            string route = "api/DesktopApi/AddComplexObjectPost";
+            using (HttpResponseMessage response = await client.PostAsJsonAsync(route, newObject))
+            {
+                if (response.IsSuccessStatusCode)
+                    Log($"Success: {response.StatusCode}");
+                else
+                    Log($"Failed: {response.StatusCode}");
+                string responseText = await response.Content.ReadAsStringAsync();
+                Log(responseText);
+            }
+        }
     }
 }
