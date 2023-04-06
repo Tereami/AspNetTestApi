@@ -21,7 +21,6 @@ namespace AspNetTestApi.Controllers
         public IActionResult ReadText()
         {
             string text = "ABCDabcd_АБВГабвг1234 ~!@#$%^&*()_+=\"<>,.";
-            Thread.Sleep(5000);
             return Content(text);
         }
 
@@ -108,20 +107,57 @@ namespace AspNetTestApi.Controllers
             return Content(text);
         }
 
-        public IActionResult DownloadFile(string filename)
+        //работает, но не получается отправить сообщение об ошибке
+        //[HttpGet("{filename}")]
+        //public async Task DownloadFile(string filename)
+        //{
+        //    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", filename);
+        //    if (!System.IO.File.Exists(path))
+        //    {
+        //        await HttpContext.Response.WriteAsync($"File not found: {path}");
+        //        return;
+        //    }
+        //    await HttpContext.Response.SendFileAsync(path);
+        //}
+
+        [HttpGet("{filename}")]
+        public async Task<IActionResult> DownloadFile0(string filename)
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", filename);
             if (!System.IO.File.Exists(path))
             {
-                return NotFound();
+                return NotFound($"File not found: {path}");
             }
-            using (FileStream fs = new FileStream(path, FileMode.Open))
-            {
-                string file_type = "application/octet-stream";
-                string file_name = filename;
-                return File(fs, file_type, file_name);
-            }
+            await HttpContext.Response.SendFileAsync(path);
+            return Ok(); //ошибка в клиенте, хотя браузер качает нормально
         }
+
+        //так всё работает, но не уверен что 
+        [HttpGet("{filename}")]
+        public async Task<IActionResult> DownloadFile2(string filename)
+        {
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", filename);
+            if (!System.IO.File.Exists(path))
+            {
+                return NotFound($"File not found: {path}");
+            }
+            return await Task.Run(() => new PhysicalFileResult(path, "application/octet-stream"));
+        }
+
+        //почти то же но через IResult
+        [HttpGet("{filename}")]
+        public async Task<IResult> DownloadFile(string filename)
+        {
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", filename);
+            if (!System.IO.File.Exists(path))
+            {
+                return Results.NotFound($"File not found: {path}");
+            }
+            return await Task.Run(() => Results.File(path));
+        }
+
+
+
 
         [HttpPost]
         public IActionResult UploadFile(string filename)
@@ -145,6 +181,19 @@ namespace AspNetTestApi.Controllers
 
             string msg = "Success успешно";
             return Ok(msg);
+        }
+
+        [HttpGet]
+        public IEnumerable<string> GetFilesList()
+        {
+            string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files");
+            if (!Directory.Exists(folder))
+            {
+                //await HttpContext.Response.WriteAsync($"Folder not exists: {folder})");
+                throw new Exception($"Folder not exists: {folder}");
+            }
+            IEnumerable<string> files = Directory.GetFiles(folder).Select(i => Path.GetFileName(i));
+            return files;
         }
     }
 }

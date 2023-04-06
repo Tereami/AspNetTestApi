@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DomainModel;
+using System.IO;
 
 namespace ClientDesktopApp
 {
@@ -161,6 +162,7 @@ namespace ClientDesktopApp
             //List<string> tags = newObject.Tags;
             string tags = string.Join(",", newObject.Tags);
             string route = $"api/DesktopApi/AddComplexObject/{name}&{description}&{tags}";
+            Log($"Try connect to {route}...");
             using (HttpResponseMessage response = await client.GetAsync(route))
             {
                 if (response.IsSuccessStatusCode)
@@ -189,6 +191,63 @@ namespace ClientDesktopApp
                 string responseText = await response.Content.ReadAsStringAsync();
                 Log(responseText);
             }
+        }
+
+        private async void buttonRefreshFiles_Click(object sender, EventArgs e)
+        {
+            string route = "api/DesktopApi/GetFilesList";
+            Log($"Try connect to {route}...");
+            using (HttpResponseMessage response = await client.GetAsync(route))
+            {
+                string responseText = await response.Content.ReadAsStringAsync();
+                Log(responseText);
+                if (!response.IsSuccessStatusCode)
+                {
+                    Log($"Failed: {response.StatusCode}");
+                    return;
+                }
+
+                Log($"Success: {response.StatusCode}");
+                List<string> texts = await response.Content.ReadFromJsonAsync<List<string>>();
+                comboBoxFiles.DataSource = texts;
+            }
+            Log("Read files list finished!");
+        }
+
+        private async void buttonDownloadFile_Click(object sender, EventArgs e)
+        {
+            string filename = comboBoxFiles.Text;
+            string folder = AppDomain.CurrentDomain.BaseDirectory;
+            string filepath = Path.Combine(folder, filename);
+            if(File.Exists(filepath))
+            {
+                Log($"File exists, deleted: {filepath}");
+                File.Delete(filepath);
+            }
+
+            string route = $"api/DesktopApi/DownloadFile/{filename}";
+            Log($"Try connect to {route}...");
+            using (HttpResponseMessage response = await client.GetAsync(route))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    Log($"Failed: {response.StatusCode}");
+                    string responseText = await response.Content.ReadAsStringAsync();
+                    Log(responseText);
+                    return;
+                }
+                //using (Stream stream = await response.Content.ReadAsStreamAsync())
+                //{
+                //    using(FileStream newfile = File.Create(filepath))
+                //    {
+                //        stream.Seek(0, SeekOrigin.Begin);
+                //        stream.CopyTo(newfile);
+                //    }
+                //}
+                byte[] bytes = await response.Content.ReadAsByteArrayAsync();
+                File.WriteAllBytes(filepath, bytes);
+            }
+            Log($"File downloaded to {filepath}");
         }
     }
 }

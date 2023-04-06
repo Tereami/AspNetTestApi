@@ -14,4 +14,10 @@
     <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Files\beam.rfa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

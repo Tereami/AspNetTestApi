@@ -60,7 +60,7 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.comboBoxFiles = new System.Windows.Forms.ComboBox();
             this.buttonRefreshFiles = new System.Windows.Forms.Button();
-            this.buttonDownloadFIle = new System.Windows.Forms.Button();
+            this.buttonDownloadFile = new System.Windows.Forms.Button();
             this.buttonUploadFile = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -283,7 +283,7 @@
             this.buttonAddObjectV2.Name = "buttonAddObjectV2";
             this.buttonAddObjectV2.Size = new System.Drawing.Size(86, 20);
             this.buttonAddObjectV2.TabIndex = 9;
-            this.buttonAddObjectV2.Text = "Add object v2";
+            this.buttonAddObjectV2.Text = "Add (POST)";
             this.buttonAddObjectV2.UseVisualStyleBackColor = true;
             this.buttonAddObjectV2.Click += new System.EventHandler(this.buttonAddObjectV2_Click);
             // 
@@ -294,7 +294,7 @@
             this.buttonAddObject.Name = "buttonAddObject";
             this.buttonAddObject.Size = new System.Drawing.Size(86, 20);
             this.buttonAddObject.TabIndex = 9;
-            this.buttonAddObject.Text = "Add object";
+            this.buttonAddObject.Text = "Add (GET)";
             this.buttonAddObject.UseVisualStyleBackColor = true;
             this.buttonAddObject.Click += new System.EventHandler(this.buttonAddObject_Click);
             // 
@@ -380,7 +380,7 @@
             // 
             this.groupBox7.Controls.Add(this.comboBoxFiles);
             this.groupBox7.Controls.Add(this.buttonRefreshFiles);
-            this.groupBox7.Controls.Add(this.buttonDownloadFIle);
+            this.groupBox7.Controls.Add(this.buttonDownloadFile);
             this.groupBox7.Controls.Add(this.buttonUploadFile);
             this.groupBox7.Location = new System.Drawing.Point(12, 662);
             this.groupBox7.Name = "groupBox7";
@@ -407,16 +407,18 @@
             this.buttonRefreshFiles.TabIndex = 21;
             this.buttonRefreshFiles.Text = "Refresh";
             this.buttonRefreshFiles.UseVisualStyleBackColor = true;
+            this.buttonRefreshFiles.Click += new System.EventHandler(this.buttonRefreshFiles_Click);
             // 
-            // buttonDownloadFIle
+            // buttonDownloadFile
             // 
-            this.buttonDownloadFIle.Enabled = false;
-            this.buttonDownloadFIle.Location = new System.Drawing.Point(6, 46);
-            this.buttonDownloadFIle.Name = "buttonDownloadFIle";
-            this.buttonDownloadFIle.Size = new System.Drawing.Size(99, 23);
-            this.buttonDownloadFIle.TabIndex = 21;
-            this.buttonDownloadFIle.Text = "Download file";
-            this.buttonDownloadFIle.UseVisualStyleBackColor = true;
+            this.buttonDownloadFile.Enabled = false;
+            this.buttonDownloadFile.Location = new System.Drawing.Point(6, 46);
+            this.buttonDownloadFile.Name = "buttonDownloadFile";
+            this.buttonDownloadFile.Size = new System.Drawing.Size(99, 23);
+            this.buttonDownloadFile.TabIndex = 21;
+            this.buttonDownloadFile.Text = "Download file";
+            this.buttonDownloadFile.UseVisualStyleBackColor = true;
+            this.buttonDownloadFile.Click += new System.EventHandler(this.buttonDownloadFile_Click);
             // 
             // buttonUploadFile
             // 
@@ -490,7 +492,7 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.ComboBox comboBoxFiles;
         private System.Windows.Forms.Button buttonRefreshFiles;
-        private System.Windows.Forms.Button buttonDownloadFIle;
+        private System.Windows.Forms.Button buttonDownloadFile;
         private System.Windows.Forms.Button buttonUploadFile;
         private System.Windows.Forms.TextBox textBoxTextsList;
         private System.Windows.Forms.Button buttonAddObjectV2;
