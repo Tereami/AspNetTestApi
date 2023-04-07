@@ -128,6 +128,11 @@ namespace ClientDesktopApp
                     return;
 
                 TestObject testObject = await response.Content.ReadFromJsonAsync<TestObject>();
+                if (testObject.Tags == null)
+                {
+                    Log("Tags is not loaded!");
+                    return;
+                }
                 textBoxObject.Text = $"Name: {testObject.Name}{nl}" +
                 $"Description: {testObject.Description}{nl}" +
                 $"Created time: {testObject.CreatedAt}{nl}" +

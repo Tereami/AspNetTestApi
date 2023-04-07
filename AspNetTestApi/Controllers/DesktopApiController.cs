@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using DomainModel;
 using Microsoft.AspNetCore.Http;
 using System.Reflection.Metadata.Ecma335;
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetTestApi.Controllers
 {
@@ -13,15 +15,40 @@ namespace AspNetTestApi.Controllers
     public class DesktopApiController : ControllerBase
     {
         public static List<string> texts = new List<string> { "Text1", "Текст2" };
-        public static List<TestObject> objects = new List<TestObject>
+        private readonly DB db;
+
+        public DesktopApiController(DB db)
         {
-            new TestObject(0, "First объект", "First описание", new List<string> {"tag1", "тэг2"})
-        };
+            this.db = db;
+        }
 
         public IActionResult ReadText()
         {
             string text = "ABCDabcd_АБВГабвг1234 ~!@#$%^&*()_+=\"<>,.";
             return Content(text);
+        }
+
+        public List<string> ReadTextsList()
+        {
+            return texts;
+        }
+
+        [HttpGet("{text?}")]
+        public IActionResult AddTextToList(string? text)
+        {
+            //using StreamReader reader = new StreamReader(HttpContext.Request.Body);
+            //string name = await reader.ReadToEndAsync();
+            if (string.IsNullOrEmpty(text))
+            {
+                return BadRequest("Parameter \"text\" is null!");
+            }
+            if (texts.Contains(text))
+            {
+                return BadRequest($"Text {text} already exists!");
+            }
+            texts.Add(text);
+            Console.WriteLine($"Text added: {text}");
+            return Ok($"Text is added: {text}");
         }
 
         //[HttpGet("{id}")]
@@ -47,7 +74,7 @@ namespace AspNetTestApi.Controllers
         [HttpGet("{id}")]
         public IResult ReadComplexObjectAsJson(int id)
         {
-            TestObject? o = objects.FirstOrDefault(i => i.Id == id);
+            TestObject? o = db.TestObjects.Include(i => i.Tags).FirstOrDefault(i => i.Id == id);
             if (o == null)
                 return Results.NotFound($"Object id {id} not found");
 
@@ -55,50 +82,30 @@ namespace AspNetTestApi.Controllers
         }
 
         [HttpGet("{name}&{description}&{tags}")]
-        public IActionResult AddComplexObject(string name, string description, string tags)
+        public async Task<IActionResult> AddComplexObject(string name, string description, string tags)
         {
-            if (objects.Any(i => i.Name == name))
+            if (db.TestObjects.Any(i => i.Name == name))
                 return BadRequest($"Name {name} already exists");
-            int newId = 1 + objects.Max(i => i.Id);
-            List<string> tagsList = tags.Replace(" ", "").Split(',').ToList();
-            TestObject to = new TestObject(newId, name, description, tagsList);
-            objects.Add(to);
-            return Ok($"Object added with id {newId}");
+            
+            TestObject to = new TestObject(0, name, description, tags);
+            await db.TestObjects.AddAsync(to);
+            await db.SaveChangesAsync();
+            return Ok($"Object added with id {to.Id}");
         }
 
         [HttpPost]
-        public IResult AddComplexObjectPost(TestObject newObject)
+        public async Task<IResult> AddComplexObjectPost(TestObject newObject)
         {
             string name = newObject.Name;
-            if (objects.Any(i => i.Name == name))
+            if (await db.TestObjects.AnyAsync(i => i.Name == name))
                 return Results.BadRequest($"Name {name} already exists");
-            newObject.Id = 1 + objects.Max(i => i.Id);
-            objects.Add(newObject);
+            
+            await db.TestObjects.AddAsync(newObject);
+            await db.SaveChangesAsync();
             return Results.Json(newObject);
         }
 
-        public List<string> ReadTextsList()
-        {
-            return texts;
-        }
 
-        [HttpGet("{text?}")]
-        public IActionResult AddTextToList(string? text)
-        {
-            //using StreamReader reader = new StreamReader(HttpContext.Request.Body);
-            //string name = await reader.ReadToEndAsync();
-            if (string.IsNullOrEmpty(text))
-            {
-                return BadRequest("Parameter \"text\" is null!");
-            }
-            if (texts.Contains(text))
-            {
-                return BadRequest($"Text {text} already exists!");
-            }
-            texts.Add(text);
-            Console.WriteLine($"Text added: {text}");
-            return Ok($"Text is added: {text}");
-        }
 
         [HttpPost]
         public IActionResult Login(LoginModel loginModel)

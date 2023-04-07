@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetTestApi", "AspNetTestApi\AspNetTestApi.csproj", "{85AEA8B0-281A-408D-96C0-861563FE34BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetTestApi", "AspNetTestApi\AspNetTestApi.csproj", "{85AEA8B0-281A-408D-96C0-861563FE34BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientDesktopApp", "ClientDesktopApp\ClientDesktopApp.csproj", "{AB464090-B94E-44D4-B11F-EA2C116A92B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModel", "DomainModel\DomainModel.csproj", "{FCF10D66-B96A-4673-9785-C749D482CC26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{1D68460D-A55D-4C4A-97E1-324E1B77766B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{FCF10D66-B96A-4673-9785-C749D482CC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCF10D66-B96A-4673-9785-C749D482CC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCF10D66-B96A-4673-9785-C749D482CC26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D68460D-A55D-4C4A-97E1-324E1B77766B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D68460D-A55D-4C4A-97E1-324E1B77766B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D68460D-A55D-4C4A-97E1-324E1B77766B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D68460D-A55D-4C4A-97E1-324E1B77766B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

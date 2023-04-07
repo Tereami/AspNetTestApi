@@ -1,5 +1,8 @@
 ﻿using AspNetTestApi.Models;
+using DataAccess;
+using DomainModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace AspNetTestApi.Controllers
@@ -7,15 +10,18 @@ namespace AspNetTestApi.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly DB db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, DB db)
         {
             _logger = logger;
+            this.db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<TestObject> testObjects = await db.TestObjects.Include(i => i.Tags).ToListAsync();
+            return View(testObjects);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

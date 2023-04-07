@@ -1,8 +1,34 @@
-﻿@{
+﻿@model List<DomainModel.TestObject>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h3>Objects in DB:</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var to in Model)
+            {
+                <tr>
+                    <td>@to.Id</td>
+                    <td>@to.Name</td>
+                    <td>@to.Description</td>
+                    <td>
+                        @if (to.Tags != null)
+                        {
+                            @string.Join(",", to.Tags)
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

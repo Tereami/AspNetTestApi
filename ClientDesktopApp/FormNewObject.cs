@@ -36,7 +36,6 @@ namespace ClientDesktopApp
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            List<string> tags = textBoxTags.Text.Replace(" ", "").Split(',').ToList();
             if(string.IsNullOrEmpty(textBoxName.Text))
             {
                 MessageBox.Show("Error: name is empty");
@@ -45,13 +44,13 @@ namespace ClientDesktopApp
             
             if (model == null)
             {
-                model = new TestObject(-1, textBoxName.Text, textBoxDescription.Text, tags);
+                model = new TestObject(0, textBoxName.Text, textBoxDescription.Text, textBoxTags.Text);
             }
             else
             {
                 model.Name = textBoxName.Text;
                 model.Description = textBoxDescription.Text;
-                model.Tags = tags;
+                model.SetTags(textBoxTags.Text);
             }
             this.DialogResult = DialogResult.OK;
             this.Close();

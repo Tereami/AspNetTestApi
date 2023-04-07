@@ -103,9 +103,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Entity.cs" />
+    <Compile Include="Base\Interfaces\IEntity.cs" />
     <Compile Include="Identity\Role.cs" />
     <Compile Include="Identity\User.cs" />
     <Compile Include="LoginModel.cs" />
+    <Compile Include="Tag.cs" />
     <Compile Include="TestObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
