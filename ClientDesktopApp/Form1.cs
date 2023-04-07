@@ -59,18 +59,11 @@ namespace ClientDesktopApp
         {
             string route = "api/DesktopApi/ReadText";
             Log($"Try connect to {route}...");
-            using (HttpResponseMessage responseMessage = await client.GetAsync(route))
+            using (HttpResponseMessage response = await client.GetAsync(route))
             {
-                if (responseMessage.IsSuccessStatusCode)
-                {
-                    Log($"{route} - success!");
-                }
-                else
-                {
-                    Log($"{route} - failed!");
-                }
-                string response = await responseMessage.Content.ReadAsStringAsync();
-                textBoxReadText.Text = response;
+                await LogResponse(response);
+                string text = await response.Content.ReadAsStringAsync();
+                textBoxReadText.Text = text;
             }
             Log("Read text finished");
         }
@@ -106,12 +99,7 @@ namespace ClientDesktopApp
             //using (HttpResponseMessage response = await client.PostAsync(route, stringContent))
             using (HttpResponseMessage response = await client.GetAsync(route))
             {
-                if (response.IsSuccessStatusCode)
-                    Log($"Success: {response.StatusCode}");
-                else
-                    Log($"Failed: {response.StatusCode}");
-                string responseText = await response.Content.ReadAsStringAsync();
-                Log(responseText);
+                await LogResponse(response);
             }
             Log("Add text finished!");
         }
@@ -135,20 +123,15 @@ namespace ClientDesktopApp
 
             using (HttpResponseMessage response = await client.GetAsync(route))
             {
+                await LogResponse(response);
                 if (!response.IsSuccessStatusCode)
-                {
-                    Log($"Failed: {response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
                     return;
-                }
-                else
-                {
-                    Log($"Success! JSON:{await response.Content.ReadAsStringAsync()}");
-                }
+
                 TestObject testObject = await response.Content.ReadFromJsonAsync<TestObject>();
                 textBoxObject.Text = $"Name: {testObject.Name}{nl}" +
-                    $"Description: {testObject.Description}{nl}" +
-                    $"Created time: {testObject.CreatedAt}{nl}" +
-                    $"Tags: {string.Join(", ", testObject.Tags)}";
+                $"Description: {testObject.Description}{nl}" +
+                $"Created time: {testObject.CreatedAt}{nl}" +
+                $"Tags: {string.Join(", ", testObject.Tags)}";
             }
         }
 
@@ -167,12 +150,7 @@ namespace ClientDesktopApp
             Log($"Try connect to {route}...");
             using (HttpResponseMessage response = await client.GetAsync(route))
             {
-                if (response.IsSuccessStatusCode)
-                    Log($"Success: {response.StatusCode}");
-                else
-                    Log($"Failed: {response.StatusCode}");
-                string responseText = await response.Content.ReadAsStringAsync();
-                Log(responseText);
+                await LogResponse(response);
             }
             Log("Add object finished!");
         }
@@ -186,12 +164,7 @@ namespace ClientDesktopApp
             string route = "api/DesktopApi/AddComplexObjectPost";
             using (HttpResponseMessage response = await client.PostAsJsonAsync(route, newObject))
             {
-                if (response.IsSuccessStatusCode)
-                    Log($"Success: {response.StatusCode}");
-                else
-                    Log($"Failed: {response.StatusCode}");
-                string responseText = await response.Content.ReadAsStringAsync();
-                Log(responseText);
+                await LogResponse(response);
             }
         }
 
@@ -201,15 +174,12 @@ namespace ClientDesktopApp
             Log($"Try connect to {route}...");
             using (HttpResponseMessage response = await client.GetAsync(route))
             {
-                string responseText = await response.Content.ReadAsStringAsync();
-                Log(responseText);
+                await LogResponse(response);
                 if (!response.IsSuccessStatusCode)
                 {
-                    Log($"Failed: {response.StatusCode}");
                     return;
                 }
 
-                Log($"Success: {response.StatusCode}");
                 List<string> texts = await response.Content.ReadFromJsonAsync<List<string>>();
                 comboBoxFiles.DataSource = texts;
             }
@@ -221,7 +191,7 @@ namespace ClientDesktopApp
             string filename = comboBoxFiles.Text;
             string folder = AppDomain.CurrentDomain.BaseDirectory;
             string filepath = Path.Combine(folder, filename);
-            if(File.Exists(filepath))
+            if (File.Exists(filepath))
             {
                 Log($"File exists, deleted: {filepath}");
                 File.Delete(filepath);
@@ -231,13 +201,12 @@ namespace ClientDesktopApp
             Log($"Try connect to {route}...");
             using (HttpResponseMessage response = await client.GetAsync(route))
             {
+                await LogResponse(response);
                 if (!response.IsSuccessStatusCode)
                 {
-                    Log($"Failed: {response.StatusCode}");
-                    string responseText = await response.Content.ReadAsStringAsync();
-                    Log(responseText);
                     return;
                 }
+                //можно сохранять через поток или через байт массив
                 //using (Stream stream = await response.Content.ReadAsStreamAsync())
                 //{
                 //    using(FileStream newfile = File.Create(filepath))
@@ -260,24 +229,41 @@ namespace ClientDesktopApp
             string filepath = openFileDialog.FileName;
             string filename = Path.GetFileName(filepath);
             string route = $"api/DesktopApi/UploadFile";
-            using(MultipartFormDataContent form = new MultipartFormDataContent())
+            using (MultipartFormDataContent form = new MultipartFormDataContent())
             {
                 StreamContent content = new StreamContent(File.OpenRead(filepath));
                 //content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
                 //content.Headers.ContentLength = 0;
                 form.Add(content, filename, filename);
-                using(HttpResponseMessage response = await client.PostAsync(route, form))
+                using (HttpResponseMessage response = await client.PostAsync(route, form))
                 {
-                    string msg = await response.Content.ReadAsStringAsync();
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Log($"Success {response.StatusCode}: {msg}");
-                    }
-                    else
-                    {
-                        Log($"Error {response.StatusCode}: {msg}");
-                    }
+                    await LogResponse(response);
                 }
+            }
+        }
+
+        private async void buttonLogin_Click(object sender, EventArgs e)
+        {
+            string username = textBoxUsername.Text;
+            string password = textBoxPassword.Text;
+            string route = "api/DesktopApi/Login";
+            LoginModel loginModel = new LoginModel { Username = username, Password = password };
+            using (HttpResponseMessage response = await client.PostAsJsonAsync(route, loginModel))
+            {
+                await LogResponse(response);
+            }
+        }
+
+        private async Task LogResponse(HttpResponseMessage response)
+        {
+            string msg = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                Log($"Success {response.StatusCode}: {msg}");
+            }
+            else
+            {
+                Log($"Error {response.StatusCode}: {msg}");
             }
         }
     }

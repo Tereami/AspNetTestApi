@@ -100,6 +100,16 @@ namespace AspNetTestApi.Controllers
             return Ok($"Text is added: {text}");
         }
 
+        [HttpPost]
+        public IActionResult Login(LoginModel loginModel)
+        {
+            if (loginModel.Username == loginModel.Password)
+                return Ok("Success");
+            else
+                return BadRequest("Username and password not equals");
+        }
+
+        [HttpPost]
         [Authorize]
         public IActionResult ReadTextAuth()
         {

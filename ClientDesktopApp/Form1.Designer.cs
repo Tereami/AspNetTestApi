@@ -37,13 +37,14 @@
             this.buttonAddTextToList = new System.Windows.Forms.Button();
             this.textBoxTextToAdd = new System.Windows.Forms.TextBox();
             this.buttonReadObject = new System.Windows.Forms.Button();
-            this.buttonAuthorize = new System.Windows.Forms.Button();
+            this.buttonLogin = new System.Windows.Forms.Button();
             this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.labelAuthorize = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonReadAuthText = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.numericObjectId = new System.Windows.Forms.NumericUpDown();
@@ -162,15 +163,16 @@
             this.buttonReadObject.UseVisualStyleBackColor = true;
             this.buttonReadObject.Click += new System.EventHandler(this.buttonReadObject_Click);
             // 
-            // buttonAuthorize
+            // buttonLogin
             // 
-            this.buttonAuthorize.Enabled = false;
-            this.buttonAuthorize.Location = new System.Drawing.Point(6, 64);
-            this.buttonAuthorize.Name = "buttonAuthorize";
-            this.buttonAuthorize.Size = new System.Drawing.Size(99, 23);
-            this.buttonAuthorize.TabIndex = 11;
-            this.buttonAuthorize.Text = "Authorize";
-            this.buttonAuthorize.UseVisualStyleBackColor = true;
+            this.buttonLogin.Enabled = false;
+            this.buttonLogin.Location = new System.Drawing.Point(6, 64);
+            this.buttonLogin.Name = "buttonLogin";
+            this.buttonLogin.Size = new System.Drawing.Size(99, 23);
+            this.buttonLogin.TabIndex = 11;
+            this.buttonLogin.Text = "Login";
+            this.buttonLogin.UseVisualStyleBackColor = true;
+            this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
             // textBoxUsername
             // 
@@ -222,7 +224,8 @@
             // 
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.labelAuthorize);
-            this.groupBox1.Controls.Add(this.buttonAuthorize);
+            this.groupBox1.Controls.Add(this.buttonReadAuthText);
+            this.groupBox1.Controls.Add(this.buttonLogin);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.textBoxUsername);
             this.groupBox1.Controls.Add(this.textBoxPassword);
@@ -232,6 +235,16 @@
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Authorize";
+            // 
+            // buttonReadAuthText
+            // 
+            this.buttonReadAuthText.Enabled = false;
+            this.buttonReadAuthText.Location = new System.Drawing.Point(284, 64);
+            this.buttonReadAuthText.Name = "buttonReadAuthText";
+            this.buttonReadAuthText.Size = new System.Drawing.Size(99, 23);
+            this.buttonReadAuthText.TabIndex = 11;
+            this.buttonReadAuthText.Text = "Authorize";
+            this.buttonReadAuthText.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -474,7 +487,7 @@
         private System.Windows.Forms.Button buttonAddTextToList;
         private System.Windows.Forms.TextBox textBoxTextToAdd;
         private System.Windows.Forms.Button buttonReadObject;
-        private System.Windows.Forms.Button buttonAuthorize;
+        private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.TextBox textBoxUsername;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxPassword;
@@ -499,6 +512,7 @@
         private System.Windows.Forms.Button buttonAddObjectV2;
         private System.Windows.Forms.Button buttonAddObject;
         private System.Windows.Forms.TextBox textBoxObject;
+        private System.Windows.Forms.Button buttonReadAuthText;
     }
 }
 
