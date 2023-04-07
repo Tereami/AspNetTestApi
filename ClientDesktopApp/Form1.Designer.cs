@@ -429,6 +429,7 @@
             this.buttonUploadFile.TabIndex = 21;
             this.buttonUploadFile.Text = "Upload new file";
             this.buttonUploadFile.UseVisualStyleBackColor = true;
+            this.buttonUploadFile.Click += new System.EventHandler(this.buttonUploadFile_Click);
             // 
             // Form1
             // 

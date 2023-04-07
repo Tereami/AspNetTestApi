@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DomainModel;
 using System.IO;
+using System.Net.Mime;
+using System.Net.Http.Headers;
 
 namespace ClientDesktopApp
 {
@@ -248,6 +250,35 @@ namespace ClientDesktopApp
                 File.WriteAllBytes(filepath, bytes);
             }
             Log($"File downloaded to {filepath}");
+        }
+
+        private async void buttonUploadFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+            string filepath = openFileDialog.FileName;
+            string filename = Path.GetFileName(filepath);
+            string route = $"api/DesktopApi/UploadFile";
+            using(MultipartFormDataContent form = new MultipartFormDataContent())
+            {
+                StreamContent content = new StreamContent(File.OpenRead(filepath));
+                //content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
+                //content.Headers.ContentLength = 0;
+                form.Add(content, filename, filename);
+                using(HttpResponseMessage response = await client.PostAsync(route, form))
+                {
+                    string msg = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Log($"Success {response.StatusCode}: {msg}");
+                    }
+                    else
+                    {
+                        Log($"Error {response.StatusCode}: {msg}");
+                    }
+                }
+            }
         }
     }
 }

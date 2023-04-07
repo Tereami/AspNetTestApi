@@ -132,7 +132,7 @@ namespace AspNetTestApi.Controllers
             return Ok(); //ошибка в клиенте, хотя браузер качает нормально
         }
 
-        //так всё работает, но не уверен что 
+        //так всё работает, но не уверен что так правильно
         [HttpGet("{filename}")]
         public async Task<IActionResult> DownloadFile2(string filename)
         {
@@ -160,7 +160,7 @@ namespace AspNetTestApi.Controllers
 
 
         [HttpPost]
-        public IActionResult UploadFile(string filename)
+        public async Task<IActionResult> UploadFile()
         {
             string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files");
             IFormFileCollection formFiles = Request.Form.Files;
@@ -170,17 +170,16 @@ namespace AspNetTestApi.Controllers
                 return BadRequest(new { type = "error", msg = "More than 1 file Допускается только 1 файл" });
 
             IFormFile file = formFiles[0];
-            string filePath = Path.Combine(folder, filename);
+            string filePath = Path.Combine(folder, file.FileName);
             if (System.IO.File.Exists(filePath))
-                return Content("File is already exists Файл уже существует");
+                return BadRequest("File is already exists Файл уже существует");
 
             using (FileStream stream = new FileStream(filePath, FileMode.Create))
             {
-
+                await file.CopyToAsync(stream);
             }
 
-            string msg = "Success успешно";
-            return Ok(msg);
+            return Ok("Success успешно");
         }
 
         [HttpGet]
