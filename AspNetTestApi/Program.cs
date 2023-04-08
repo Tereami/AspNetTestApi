@@ -33,7 +33,7 @@ internal class Program
             opt.Password.RequiredLength = 8;
             opt.Password.RequireNonAlphanumeric = false;
 #endif
-            opt.User.RequireUniqueEmail = true;
+            //opt.User.RequireUniqueEmail = true;
             opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+/ ";
 
             opt.Lockout.AllowedForNewUsers = false;
