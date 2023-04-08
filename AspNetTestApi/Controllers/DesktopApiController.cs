@@ -107,22 +107,6 @@ namespace AspNetTestApi.Controllers
 
 
 
-        [HttpPost]
-        public IActionResult Login(LoginModel loginModel)
-        {
-            if (loginModel.Username == loginModel.Password)
-                return Ok("Success");
-            else
-                return BadRequest("Username and password not equals");
-        }
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult ReadTextAuth()
-        {
-            string text = "Text only for auththorized users";
-            return Content(text);
-        }
 
         //работает, но не получается отправить сообщение об ошибке
         //[HttpGet("{filename}")]

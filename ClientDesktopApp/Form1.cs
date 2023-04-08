@@ -251,7 +251,8 @@ namespace ClientDesktopApp
         {
             string username = textBoxUsername.Text;
             string password = textBoxPassword.Text;
-            string route = "api/DesktopApi/Login";
+            string route = "AccountApi/Login";
+            //string route = "api/DesktopApi/LoginApi";
             LoginModel loginModel = new LoginModel { Username = username, Password = password };
             using (HttpResponseMessage response = await client.PostAsJsonAsync(route, loginModel))
             {
@@ -270,6 +271,16 @@ namespace ClientDesktopApp
             {
                 Log($"Error {response.StatusCode}: {msg}");
             }
+        }
+
+        private async void buttonReadAuthText_Click(object sender, EventArgs e)
+        {
+            string route = "AccountApi/ReadTextAuth";
+            using (HttpResponseMessage response = await client.GetAsync(route))
+            {
+                await LogResponse(response);
+            }
+            
         }
     }
 }

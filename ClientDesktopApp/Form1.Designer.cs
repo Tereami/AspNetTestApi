@@ -243,8 +243,9 @@
             this.buttonReadAuthText.Name = "buttonReadAuthText";
             this.buttonReadAuthText.Size = new System.Drawing.Size(99, 23);
             this.buttonReadAuthText.TabIndex = 11;
-            this.buttonReadAuthText.Text = "Authorize";
+            this.buttonReadAuthText.Text = "Check authorize";
             this.buttonReadAuthText.UseVisualStyleBackColor = true;
+            this.buttonReadAuthText.Click += new System.EventHandler(this.buttonReadAuthText_Click);
             // 
             // groupBox2
             // 
