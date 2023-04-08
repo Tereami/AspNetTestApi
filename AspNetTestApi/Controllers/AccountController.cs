@@ -18,6 +18,7 @@ namespace AspNetTestApi.Controllers
             signInManager = SignInManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> Users()
         {
             List<User> users = await userManager.Users.ToListAsync();
@@ -36,6 +37,8 @@ namespace AspNetTestApi.Controllers
             }
             return View(usersViewModel);
         }
+
+
 
         public IActionResult Register()
         {
@@ -67,6 +70,9 @@ namespace AspNetTestApi.Controllers
             }
             return View(model);
         }
+
+
+
 
         public IActionResult Login(string ReturnUrl)
         {
@@ -102,6 +108,8 @@ namespace AspNetTestApi.Controllers
             ModelState.AddModelError("", "Неверный логин или пароль");
             return View(model);
         }
+
+
 
 
         [Authorize]

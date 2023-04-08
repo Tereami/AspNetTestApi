@@ -25,7 +25,7 @@ namespace AspNetTestApi.Data
         {
             logger.LogInformation("DB initialization...");
 
-            db.Database.EnsureDeleted();
+            //db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
 
             if (db.Database.GetAppliedMigrations().Any())
