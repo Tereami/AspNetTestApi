@@ -46,11 +46,12 @@ namespace AspNetTestApi.Controllers
         }
 
 
-
+        //[Authorize]
         [HttpGet]
-        [Authorize]
         public IActionResult ReadTextAuth()
         {
+            if (!User.Identity!.IsAuthenticated)
+                return BadRequest("No login");
             string text = "Hello authorized user from AccountApiController";
             return Content(text);
         }
