@@ -1,4 +1,4 @@
-namespace AspNetTestApi.Models
+namespace AspNetTestApi.ViewModels
 {
     public class ErrorViewModel
     {

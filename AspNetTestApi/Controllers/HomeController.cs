@@ -1,4 +1,4 @@
-﻿using AspNetTestApi.Models;
+﻿using AspNetTestApi.ViewModels;
 using DataAccess;
 using DomainModel;
 using Microsoft.AspNetCore.Mvc;

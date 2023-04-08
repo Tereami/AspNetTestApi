@@ -1,4 +1,4 @@
-﻿using AspNetTestApi.Models;
+﻿using AspNetTestApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
