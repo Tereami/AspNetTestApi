@@ -149,7 +149,7 @@ namespace AspNetTestApi.Controllers
             return Ok(); //ошибка в клиенте, хотя браузер качает нормально
         }
 
-        //так всё работает, но не уверен что так правильно
+        //так всё работает, но не уверен что так правильно. Или для скачивания файла async не обязателен?
         [HttpGet("{filename}")]
         public async Task<IActionResult> DownloadFile2(string filename)
         {

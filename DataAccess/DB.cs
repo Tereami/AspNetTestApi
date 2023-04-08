@@ -1,4 +1,6 @@
 ﻿using DomainModel;
+using DomainModel.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using System;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    public class DB : DbContext
+    public class DB : IdentityDbContext<User, Role, string>
     {
         public DbSet<TestObject> TestObjects { get; set; }
 
