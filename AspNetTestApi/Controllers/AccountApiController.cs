@@ -1,4 +1,5 @@
-﻿using DomainModel;
+﻿using AspNetTestApi.Handlers;
+using DomainModel;
 using DomainModel.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -51,7 +52,8 @@ namespace AspNetTestApi.Controllers
         public IActionResult ReadTextAuth()
         {
             if (!User.Identity!.IsAuthenticated)
-                return BadRequest("No login");
+                throw new PlatformException("Unknown user", ErrorTypeEnum.Forbidden);
+            
             string text = "Hello authorized user from AccountApiController";
             return Content(text);
         }

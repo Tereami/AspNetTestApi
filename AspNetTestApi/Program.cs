@@ -1,3 +1,4 @@
+using AspNetTestApi.Handlers;
 using Microsoft.EntityFrameworkCore;
 using DataAccess;
 using DomainModel.Identity;
@@ -57,12 +58,14 @@ internal class Program
 
 
         var app = builder.Build();
-
+        
         // Configure the HTTP request pipeline.
-        if (!app.Environment.IsDevelopment())
-        {
-            app.UseExceptionHandler("/Home/Error");
-        }
+
+        app.UseMiddleware<PlatformExceptionHandlerMiddleware>();
+        // if (!app.Environment.IsDevelopment())
+        // {
+        //     app.UseExceptionHandler("/Home/Error");
+        // }
         app.UseStaticFiles();
 
         app.UseRouting();
