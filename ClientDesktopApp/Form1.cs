@@ -15,13 +15,17 @@ using DomainModel;
 using System.IO;
 using System.Net.Mime;
 using System.Net.Http.Headers;
+using RestSharp;
+using RestSharp.Authenticators;
+using RestSharp.Serializers.NewtonsoftJson;
 
 namespace ClientDesktopApp
 {
     public partial class Form1 : Form
     {
         string nl = System.Environment.NewLine;
-        HttpClient client = new HttpClient();
+
+        private IRestClient _restClient { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -41,7 +45,9 @@ namespace ClientDesktopApp
                 return;
             }
 
-            client.BaseAddress = new Uri(serverUrl);
+            var options = new RestClientOptions(serverUrl);
+            _restClient = new RestClient(options, configureSerialization: s => s.UseNewtonsoftJson());
+
             EnableControls(this, true);
         }
 
@@ -59,12 +65,15 @@ namespace ClientDesktopApp
         {
             string route = "api/DesktopApi/ReadText";
             Log($"Try connect to {route}...");
-            using (HttpResponseMessage response = await client.GetAsync(route))
-            {
-                await LogResponse(response);
-                string text = await response.Content.ReadAsStringAsync();
-                textBoxReadText.Text = text;
-            }
+            var request = new RestRequest(route);
+            var response = await _restClient.GetAsync(request);
+            textBoxReadText.Text = response.Content;
+
+            // using (HttpResponseMessage response = await client.GetAsync(route))
+            // {
+            // await LogResponse(response);
+            // string text = await response.Content.ReadAsStringAsync();
+            // }
             Log("Read text finished");
         }
 
@@ -80,8 +89,10 @@ namespace ClientDesktopApp
             textBoxTextsList.Clear();
             string route = "api/DesktopApi/ReadTextsList";
             Log($"Try connect to {route}...");
-            List<string> texts = await client.GetFromJsonAsync<List<string>>(route);
-            foreach (string line in texts)
+            var request = new RestRequest(route);
+            var response = await _restClient.GetAsync<List<string>>(request);
+            // List<string> texts = await client.GetFromJsonAsync<List<string>>(route);
+            foreach (string line in response)
             {
                 textBoxTextsList.Text += $"{line}{nl}";
             }
@@ -93,14 +104,15 @@ namespace ClientDesktopApp
             string text = textBoxTextToAdd.Text;
             string route = $"api/DesktopApi/AddTextToList/{text}";
             Log($"Try connect to {route}...");
-
+            var request = new RestRequest(route).AddParameter("text", text, ParameterType.QueryString);
+            await _restClient.GetAsync(request);
             //
             //StringContent stringContent = new StringContent(text, Encoding.UTF8);
             //using (HttpResponseMessage response = await client.PostAsync(route, stringContent))
-            using (HttpResponseMessage response = await client.GetAsync(route))
-            {
-                await LogResponse(response);
-            }
+            // using (HttpResponseMessage response = await client.GetAsync(route))
+            // {
+            //     await LogResponse(response);
+            // }
             Log("Add text finished!");
         }
 
@@ -120,24 +132,28 @@ namespace ClientDesktopApp
             int id = (int)numericObjectId.Value;
             string route = $"api/DesktopApi/ReadComplexObjectAsJson/{id}";
             Log($"Try connect to {route}...");
+            var request = new RestRequest(route).AddParameter("id", id, ParameterType.UrlSegment);
+            var testObject = await _restClient.GetAsync<TestObject>(request);
 
-            using (HttpResponseMessage response = await client.GetAsync(route))
+            if (testObject.Tags == null)
             {
-                await LogResponse(response);
-                if (!response.IsSuccessStatusCode)
-                    return;
-
-                TestObject testObject = await response.Content.ReadFromJsonAsync<TestObject>();
-                if (testObject.Tags == null)
-                {
-                    Log("Tags is not loaded!");
-                    return;
-                }
-                textBoxObject.Text = $"Name: {testObject.Name}{nl}" +
-                $"Description: {testObject.Description}{nl}" +
-                $"Created time: {testObject.CreatedAt}{nl}" +
-                $"Tags: {string.Join(", ", testObject.Tags)}";
+                Log("Tags is not loaded!");
+                return;
             }
+            textBoxObject.Text = $"Name: {testObject.Name}{nl}" +
+            $"Description: {testObject.Description}{nl}" +
+            $"Created time: {testObject.CreatedAt}{nl}" +
+            $"Tags: {string.Join(", ", testObject.Tags)}";
+
+
+            // using (HttpResponseMessage response = await client.GetAsync(route))
+            // {
+            //     await LogResponse(response);
+            //     if (!response.IsSuccessStatusCode)
+            //         return;
+            //
+            //     TestObject testObject = await response.Content.ReadFromJsonAsync<TestObject>();
+            // }
         }
 
         //отправка через get
@@ -153,10 +169,10 @@ namespace ClientDesktopApp
             string tags = string.Join(",", newObject.Tags);
             string route = $"api/DesktopApi/AddComplexObject/{name}&{description}&{tags}";
             Log($"Try connect to {route}...");
-            using (HttpResponseMessage response = await client.GetAsync(route))
-            {
-                await LogResponse(response);
-            }
+            // using (HttpResponseMessage response = await client.GetAsync(route))
+            // {
+            //     await LogResponse(response);
+            // }
             Log("Add object finished!");
         }
 
@@ -167,27 +183,31 @@ namespace ClientDesktopApp
             if (formNew.ShowDialog() != DialogResult.OK) return;
             TestObject newObject = formNew.model;
             string route = "api/DesktopApi/AddComplexObjectPost";
-            using (HttpResponseMessage response = await client.PostAsJsonAsync(route, newObject))
-            {
-                await LogResponse(response);
-            }
+            // using (HttpResponseMessage response = await client.PostAsJsonAsync(route, newObject))
+            // {
+            //     await LogResponse(response);
+            // }
         }
 
         private async void buttonRefreshFiles_Click(object sender, EventArgs e)
         {
             string route = "api/DesktopApi/GetFilesList";
             Log($"Try connect to {route}...");
-            using (HttpResponseMessage response = await client.GetAsync(route))
-            {
-                await LogResponse(response);
-                if (!response.IsSuccessStatusCode)
-                {
-                    return;
-                }
 
-                List<string> texts = await response.Content.ReadFromJsonAsync<List<string>>();
-                comboBoxFiles.DataSource = texts;
-            }
+            var request = new RestRequest(route);
+            var response = await _restClient.GetAsync<List<string>>(request);
+            comboBoxFiles.DataSource = response;
+            // using (HttpResponseMessage response = await client.GetAsync(route))
+            // {
+            //     await LogResponse(response);
+            //     if (!response.IsSuccessStatusCode)
+            //     {
+            //         return;
+            //     }
+            //
+            //     List<string> texts = await response.Content.ReadFromJsonAsync<List<string>>();
+            //     comboBoxFiles.DataSource = texts;
+            // }
             Log("Read files list finished!");
         }
 
@@ -204,25 +224,25 @@ namespace ClientDesktopApp
 
             string route = $"api/DesktopApi/DownloadFile/{filename}";
             Log($"Try connect to {route}...");
-            using (HttpResponseMessage response = await client.GetAsync(route))
+
+            var request = new RestRequest(route).AddParameter("filename", filename, ParameterType.UrlSegment);
+            try
             {
-                await LogResponse(response);
-                if (!response.IsSuccessStatusCode)
+                var response = await _restClient.DownloadStreamAsync(request);
+                if (response == null)
                 {
-                    return;
+                    Log($"File not found");
                 }
-                //можно сохранять через поток или через байт массив
-                //using (Stream stream = await response.Content.ReadAsStreamAsync())
-                //{
-                //    using(FileStream newfile = File.Create(filepath))
-                //    {
-                //        stream.Seek(0, SeekOrigin.Begin);
-                //        stream.CopyTo(newfile);
-                //    }
-                //}
-                byte[] bytes = await response.Content.ReadAsByteArrayAsync();
-                File.WriteAllBytes(filepath, bytes);
+                using (FileStream newfile = File.Create(filepath))
+                {
+                    response.CopyTo(newfile);
+                }
             }
+            catch (Exception ex)
+            {
+                Log($"Error while reading file: {ex.Message}");
+            }
+
             Log($"File downloaded to {filepath}");
         }
 
@@ -234,29 +254,35 @@ namespace ClientDesktopApp
             string filepath = openFileDialog.FileName;
             string filename = Path.GetFileName(filepath);
             string route = $"api/DesktopApi/UploadFile";
-            using (MultipartFormDataContent form = new MultipartFormDataContent())
+
+            var restRequest = new RestRequest(route);
+            restRequest.AlwaysMultipartFormData = true;
+            restRequest.AddFile("file", filepath);
+            try
             {
-                StreamContent content = new StreamContent(File.OpenRead(filepath));
-                //content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
-                //content.Headers.ContentLength = 0;
-                form.Add(content, filename, filename);
-                using (HttpResponseMessage response = await client.PostAsync(route, form))
-                {
-                    await LogResponse(response);
-                }
+                var response = await _restClient.PostAsync(restRequest);
+            }
+            catch (Exception ex)
+            {
+                Log($"Error while uploading file: {ex.Message}");
             }
         }
 
         private async void buttonLogin_Click(object sender, EventArgs e)
         {
-            string username = textBoxUsername.Text;
-            string password = textBoxPassword.Text;
             string route = "AccountApi/Login";
-            //string route = "api/DesktopApi/LoginApi";
-            LoginModel loginModel = new LoginModel { Username = username, Password = password };
-            using (HttpResponseMessage response = await client.PostAsJsonAsync(route, loginModel))
+            LoginModel loginModel = new LoginModel { Username = textBoxUsername.Text, Password = textBoxPassword.Text };
+
+            var request = new RestRequest(route).AddJsonBody(loginModel);
+            var response = await _restClient.PostAsync(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                await LogResponse(response);
+                Log($"Success {response.StatusCode}");
+            }
+            else
+            {
+                Log($"Error {response.StatusCode}");
             }
         }
 
@@ -276,11 +302,16 @@ namespace ClientDesktopApp
         private async void buttonReadAuthText_Click(object sender, EventArgs e)
         {
             string route = "AccountApi/ReadTextAuth";
-            using (HttpResponseMessage response = await client.GetAsync(route))
+
+            Log($"Try connect to {route}...");
+            var request = new RestRequest(route);
+            try
             {
-                await LogResponse(response);
+                var response = await _restClient.GetAsync(request);
+            } catch (Exception ex)
+            {
+                Log($"Error : {ex.Message}");
             }
-            
         }
     }
 }

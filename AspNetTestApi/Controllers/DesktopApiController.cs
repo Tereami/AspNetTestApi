@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System.Reflection.Metadata.Ecma335;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace AspNetTestApi.Controllers
 {
@@ -72,15 +73,17 @@ namespace AspNetTestApi.Controllers
         //}
 
         [HttpGet("{id}")]
-        public IResult ReadComplexObjectAsJson(int id)
+        public ActionResult<TestObject> ReadComplexObjectAsJson(int id)
         {
             TestObject? o = db.TestObjects.Include(i => i.Tags).FirstOrDefault(i => i.Id == id);
-            if (o == null)
-                return Results.NotFound($"Object id {id} not found");
+            //if (o == null)
+                //вот тут как раз будет trrow new CustomError 
+                //return Results.NotFound($"Object id {id} not found");
 
-            return Results.Json(o); //а вот так всё работает
+            return Ok(o); //а вот так всё работает
         }
 
+        // Это что за путь такой интересный 
         [HttpGet("{name}&{description}&{tags}")]
         public async Task<IActionResult> AddComplexObject(string name, string description, string tags)
         {
@@ -105,72 +108,27 @@ namespace AspNetTestApi.Controllers
             return Results.Json(newObject);
         }
 
-
-
-
-        //работает, но не получается отправить сообщение об ошибке
-        //[HttpGet("{filename}")]
-        //public async Task DownloadFile(string filename)
-        //{
-        //    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", filename);
-        //    if (!System.IO.File.Exists(path))
-        //    {
-        //        await HttpContext.Response.WriteAsync($"File not found: {path}");
-        //        return;
-        //    }
-        //    await HttpContext.Response.SendFileAsync(path);
-        //}
-
         [HttpGet("{filename}")]
-        public async Task<IActionResult> DownloadFile0(string filename)
+        public IActionResult DownloadFile(string filename)
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", filename);
-            if (!System.IO.File.Exists(path))
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", filename);
+            var contentType = "application/octet-stream";
+
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var result = new FileStreamResult(fileStream, contentType)
             {
-                return NotFound($"File not found: {path}");
-            }
-            await HttpContext.Response.SendFileAsync(path);
-            return Ok(); //ошибка в клиенте, хотя браузер качает нормально
+                FileDownloadName = filename
+            };
+
+            return result;
         }
-
-        //так всё работает, но не уверен что так правильно. Или для скачивания файла async не обязателен?
-        [HttpGet("{filename}")]
-        public async Task<IActionResult> DownloadFile2(string filename)
-        {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", filename);
-            if (!System.IO.File.Exists(path))
-            {
-                return NotFound($"File not found: {path}");
-            }
-            return await Task.Run(() => new PhysicalFileResult(path, "application/octet-stream"));
-        }
-
-        //почти то же но через IResult
-        [HttpGet("{filename}")]
-        public async Task<IResult> DownloadFile(string filename)
-        {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", filename);
-            if (!System.IO.File.Exists(path))
-            {
-                return Results.NotFound($"File not found: {path}");
-            }
-            return await Task.Run(() => Results.File(path));
-        }
-
-
-
 
         [HttpPost]
-        public async Task<IActionResult> UploadFile()
+        public async Task<IActionResult> UploadFile([FromForm] IFormFile file)
         {
             string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files");
-            IFormFileCollection formFiles = Request.Form.Files;
-            if (formFiles.Count == 0)
-                return BadRequest(new { type = "error", msg = "No files нет файлов" });
-            if (formFiles.Count > 1)
-                return BadRequest(new { type = "error", msg = "More than 1 file Допускается только 1 файл" });
-
-            IFormFile file = formFiles[0];
+            if (file.Length == 0)
+                return BadRequest("File is empty Файл пустой");
             string filePath = Path.Combine(folder, file.FileName);
             if (System.IO.File.Exists(filePath))
                 return BadRequest("File is already exists Файл уже существует");

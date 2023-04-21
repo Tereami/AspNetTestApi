@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace AspNetTestApi.Controllers
 {
     [ApiController]
+    // Я бы рекомендовала имя http метода писать в атрибуте метода [HttpPost("login")], а не устанавливать для всего контроллера.
+    // Во-первых, это лучше читается, во-вторых, называть http метод как метод контроллера - не лучшая практика
     [Route("[controller]/[action]")]
     public class AccountApiController : ControllerBase
     {
